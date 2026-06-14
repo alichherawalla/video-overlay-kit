@@ -9,7 +9,7 @@
     {
       "kind": "title-overlay",
       "id": "agenda",
-      "text": "How to control AI traffic",
+      "text": "Control AI traffic in your org",
       "startFrame": 0,
       "endFrame": 150,
       "enter": { "kind": "slide-down", "durationFrames": 10, "ease": "easeOut" },
@@ -18,7 +18,7 @@
     {
       "kind": "list-reveal",
       "id": "three-outcomes",
-      "position": { "x": 0.5, "y": 0.45 },
+      "position": { "x": 0.5, "y": 0.52 },
       "startFrame": 20,
       "endFrame": 150,
       "rows": [
