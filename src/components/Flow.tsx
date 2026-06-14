@@ -10,13 +10,6 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ICON_SIZE = 200;
-const ICON_BOX = 260;
-const LABEL_FONT = 56;
-const LABEL_HEIGHT = 76;
-const LABEL_GAP_FROM_ICON = 10;
-const ARROW_STROKE = 6;
-const ARROW_HEAD = 26;
 const NODE_REVEAL_FRAMES = 10;
 const ARROW_DRAW_FRAMES = 14;
 
@@ -37,6 +30,15 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
         ? "vertical"
         : "horizontal"
       : track.direction;
+
+  const isLandscape = config.width > config.height;
+  const ICON_SIZE = isLandscape ? 260 : 200;
+  const ICON_BOX = isLandscape ? 340 : 260;
+  const LABEL_FONT = isLandscape ? 68 : 56;
+  const LABEL_HEIGHT = isLandscape ? 92 : 76;
+  const LABEL_GAP_FROM_ICON = 12;
+  const ARROW_STROKE = 7;
+  const ARROW_HEAD = 30;
 
   if (direction === "vertical") {
     const CONTAINER_W = 880;

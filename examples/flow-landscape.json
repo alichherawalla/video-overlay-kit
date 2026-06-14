@@ -17,7 +17,7 @@
     {
       "kind": "flow",
       "id": "incident-flow",
-      "position": { "x": 0.5, "y": 0.66 },
+      "position": { "x": 0.5, "y": 0.575 },
       "revealCadenceFrames": 35,
       "startFrame": 20,
       "endFrame": 150,

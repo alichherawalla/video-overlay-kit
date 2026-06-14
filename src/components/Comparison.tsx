@@ -10,9 +10,6 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ICON_SIZE = 200;
-const LABEL_FONT = 64;
-const SUBLABEL_FONT = 38;
 const REVEAL_FRAMES = 12;
 
 export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
@@ -35,6 +32,11 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
         ? "vertical"
         : "horizontal"
       : track.direction;
+
+  const isLandscape = config.width > config.height;
+  const ICON_SIZE = isLandscape ? 260 : 200;
+  const LABEL_FONT = isLandscape ? 80 : 64;
+  const SUBLABEL_FONT = isLandscape ? 44 : 38;
 
   const renderSide = (
     side: ComparisonTrack["left"],

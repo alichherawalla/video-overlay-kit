@@ -33,10 +33,10 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
       : track.direction;
 
   if (direction === "horizontal") {
-    const COL_ICON = 160;
-    const COL_TEXT = 38;
-    const COL_LABEL_GAP = 24;
-    const COL_LABEL_H = 110;
+    const COL_ICON = 220;
+    const COL_TEXT = 48;
+    const COL_LABEL_GAP = 28;
+    const COL_LABEL_H = 130;
     const CONTAINER_W = Math.min(1700, Math.round(config.width * 0.92));
     const CONTAINER_H = COL_ICON + COL_LABEL_GAP + COL_LABEL_H;
     const slotWidth = CONTAINER_W / track.rows.length;
