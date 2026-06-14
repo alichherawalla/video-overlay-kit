@@ -11,12 +11,16 @@ export type Palette = {
   inkMuted: string;
   /** Tertiary text (hints, meta) */
   inkDim: string;
-  /** Lavender — connectors, accent bar, divider lines */
+  /** Lavender, used for connectors, accent bar, divider lines */
   accent: string;
-  /** Deeper lavender — pressed, ribbons (reserved) */
+  /** Deeper lavender, reserved for pressed states and ribbons */
   accentDeep: string;
   /** Hairline border */
   hairline: string;
+  /** Radial ambient bloom rendered behind tracks (CSS gradient string) */
+  bloom: string;
+  /** Linear sunset gradient for accent-word title text (CSS gradient string) */
+  sunset: string;
 };
 
 /**
@@ -32,6 +36,10 @@ export const themes: Record<ThemeName, Palette> = {
     accent: "#7A5BDC",
     accentDeep: "#5A3DB8",
     hairline: "#CCCAE0",
+    bloom:
+      "radial-gradient(ellipse 80% 60% at 50% 28%, rgba(122,91,220,0.22) 0%, rgba(222,123,173,0.10) 35%, rgba(122,91,220,0.04) 60%, transparent 85%)",
+    sunset:
+      "linear-gradient(135deg, #E76F51 0%, #F9AD2E 18%, #DE7BAD 42%, #A485F5 70%, #5A3DB8 100%)",
   },
   dark: {
     background: "#0B0B0D",
@@ -41,6 +49,10 @@ export const themes: Record<ThemeName, Palette> = {
     accent: "#9B74F2",
     accentDeep: "#7A5BDC",
     hairline: "#26262A",
+    bloom:
+      "radial-gradient(ellipse 80% 60% at 50% 28%, rgba(164,133,245,0.26) 0%, rgba(222,123,173,0.10) 40%, transparent 80%)",
+    sunset:
+      "linear-gradient(135deg, #F89F97 0%, #F9AD2E 18%, #DE7BAD 42%, #C9ADFE 70%, #A485F5 100%)",
   },
 };
 

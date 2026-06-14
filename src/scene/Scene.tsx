@@ -25,9 +25,12 @@ export const Scene: React.FC<{ spec: SceneSpec }> = ({ spec }) => {
     accent: spec.palette?.accent ?? base.accent,
     accentDeep: spec.palette?.accentDeep ?? base.accentDeep,
     hairline: spec.palette?.hairline ?? base.hairline,
+    bloom: spec.palette?.bloom ?? base.bloom,
+    sunset: spec.palette?.sunset ?? base.sunset,
   };
   const background = spec.background ?? palette.background;
   const bgImage = spec.backgroundImage;
+  const showBloom = spec.bloom && !bgImage;
 
   return (
     <PaletteContext.Provider value={palette}>
@@ -38,6 +41,16 @@ export const Scene: React.FC<{ spec: SceneSpec }> = ({ spec }) => {
           background,
         }}
       >
+        {showBloom ? (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: palette.bloom,
+              pointerEvents: "none",
+            }}
+          />
+        ) : null}
         {bgImage ? (
           <>
             <Img

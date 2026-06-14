@@ -94,6 +94,8 @@ A vertical list of 1 to 5 rows. Each row gets an optional icon and reveals on a 
 
 Use this when you have a list of things to show, between 1 and 5 of them.
 
+<p align="center"><img src="examples/list-reveal.gif" alt="list-reveal preview" width="320" /></p>
+
 ```jsonc
 { "kind": "list-reveal", "id": "outcomes",
   "position": { "x": 0.5, "y": 0.55 },
@@ -106,13 +108,13 @@ Use this when you have a list of things to show, between 1 and 5 of them.
 }
 ```
 
-See `examples/list-reveal.mp4` for the rendered output.
-
 ### `flow`
 
 A horizontal sequence of 2 to 5 nodes. Each node appears, an arrow draws toward the next one, the next node appears.
 
 Use this when the meaning is in the sequence. Incident detected leads to runbook activated leads to contained.
+
+<p align="center"><img src="examples/flow.gif" alt="flow preview" width="320" /></p>
 
 ```jsonc
 { "kind": "flow", "id": "incident-flow",
@@ -133,6 +135,8 @@ Use this for binary contrasts. Old way against new way is the canonical example.
 
 The divider word is configurable. `"vs"` is the default for opposition; swap to `"+"` or `"→"` when the relationship is additive or transitional.
 
+<p align="center"><img src="examples/comparison.gif" alt="comparison preview" width="320" /></p>
+
 ```jsonc
 { "kind": "comparison", "id": "old-vs-new",
   "startFrame": 20, "endFrame": 180,
@@ -147,6 +151,8 @@ The divider word is configurable. `"vs"` is the default for opposition; swap to 
 A central icon with 2 to 4 satellites around it. The center appears first, then each satellite reveals with a line drawing in from the center.
 
 Use this when one thing is at the centre and other things hang off it. A gateway that controls policy, logging, cost, and swap is a hub.
+
+<p align="center"><img src="examples/hub.gif" alt="hub preview" width="320" /></p>
 
 ```jsonc
 { "kind": "hub", "id": "gateway-hub",
@@ -177,12 +183,16 @@ Most users never read the full field reference for these. The agent reads the sc
 
 ## Customize the look
 
-The kit ships with the Wednesday Solutions palette. Lavender accent on a warm off-white canvas. Everything is configurable through the scene spec. You don't edit JSON, you ask the agent in plain language.
+The kit ships with the Wednesday Solutions palette. Lavender accent on a warm off-white canvas. Every scene also gets an ambient bloom gradient behind the tracks and a sunset gradient on the title text by default. This is what "polished" looks like out of the box.
+
+Everything is configurable through the scene spec. You don't edit JSON, you ask the agent in plain language.
 
 | Tell the agent | What happens in the spec |
 |---|---|
 | "Render it in dark mode" | `theme: "dark"` |
 | "Use a black background" | `background: "#000000"` |
+| "Flat background, no bloom" | `bloom: false` |
+| "Solid colour title, no gradient" | `titleGradient: false` |
 | "Put the team photo behind it" | `backgroundImage: { source: "team.jpg" }` |
 | "Make the accent red instead of lavender" | `palette: { accent: "#E74C3C" }` |
 | "Transparent background, I'll composite it myself" | `background: "transparent"` |

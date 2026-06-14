@@ -55,6 +55,10 @@ export const TextTrackSchema = BaseTrackSchema.extend({
 export const TitleOverlayTrackSchema = BaseTrackSchema.extend({
   kind: z.literal("title-overlay"),
   text: z.string().describe("The named-deliverable title, e.g. 'How to control AI traffic'"),
+  useGradient: z
+    .boolean()
+    .optional()
+    .describe("Render the text in the theme's sunset gradient. Defaults to the scene-level titleGradient setting."),
 });
 
 export const ListRevealTrackSchema = BaseTrackSchema.extend({
@@ -195,9 +199,19 @@ export const SceneSpecSchema = z
         accent: z.string().optional(),
         accentDeep: z.string().optional(),
         hairline: z.string().optional(),
+        bloom: z.string().optional(),
+        sunset: z.string().optional(),
       })
       .optional()
       .describe("Optional palette overrides. Merges over the selected theme; any unset key falls back to the theme."),
+    bloom: z
+      .boolean()
+      .default(true)
+      .describe("Render the theme's ambient bloom gradient behind tracks. Default true. Set false for a flat canvas."),
+    titleGradient: z
+      .boolean()
+      .default(true)
+      .describe("Render title-overlay text in the theme's sunset gradient. Default true. Set false for solid ink color."),
     tracks: z.array(TrackSchema),
   })
   .refine(

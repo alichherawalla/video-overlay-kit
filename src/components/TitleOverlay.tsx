@@ -10,6 +10,18 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
   const style = trackStyle(frame, track.startFrame, track.endFrame, enter, track.exit);
   if (!style.visible) return null;
 
+  const useGradient = track.useGradient ?? true;
+
+  const textStyle: React.CSSProperties = useGradient
+    ? {
+        backgroundImage: palette.sunset,
+        WebkitBackgroundClip: "text",
+        backgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        color: "transparent",
+      }
+    : { color: palette.ink };
+
   return (
     <div
       style={{
@@ -29,23 +41,24 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
         style={{
           padding: "0 60px",
           maxWidth: 960,
-          color: palette.ink,
           fontSize: 80,
-          fontWeight: 700,
+          fontWeight: 800,
           fontFamily: FONT_FAMILY,
           textAlign: "center",
           lineHeight: 1.12,
-          letterSpacing: "-0.015em",
+          letterSpacing: "-0.02em",
+          ...textStyle,
         }}
       >
         {track.text}
       </div>
       <div
         style={{
-          width: 160,
+          width: 200,
           height: 4,
           background: palette.accent,
           borderRadius: 2,
+          opacity: 0.85,
         }}
       />
     </div>
