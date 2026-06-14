@@ -1,6 +1,6 @@
 import * as TablerIcons from "@tabler/icons-react";
 import type { HubTrack } from "../scene/types";
-import { useCurrentFrame } from "remotion";
+import { useCurrentFrame, useVideoConfig } from "remotion";
 import { trackStyle, phaseProgress } from "../motion/primitives";
 import { usePalette, FONT_FAMILY, accentStrokeUrl, gradientTextStyle } from "../scene/theme";
 
@@ -10,12 +10,12 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const CONTAINER = 1000;
-const CENTER_ICON = 220;
-const SAT_ICON = 140;
-const CENTER_LABEL = 48;
-const SAT_LABEL = 38;
-const RADIUS = 360;
+const BASE_CONTAINER = 1000;
+const BASE_CENTER_ICON = 220;
+const BASE_SAT_ICON = 140;
+const BASE_CENTER_LABEL = 48;
+const BASE_SAT_LABEL = 38;
+const BASE_RADIUS = 360;
 const LINE_DRAW_FRAMES = 12;
 const NODE_REVEAL_FRAMES = 10;
 
@@ -26,8 +26,20 @@ const satelliteAngle = (i: number, n: number): number => {
 export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
   const frame = useCurrentFrame();
   const palette = usePalette();
+  const config = useVideoConfig();
   const containerStyle = trackStyle(frame, track.startFrame, track.endFrame, track.enter, track.exit);
   if (!containerStyle.visible) return null;
+
+  // Hub is square. Fit it inside the canvas with breathing room for the title.
+  const titleReserve = 420;
+  const maxFit = Math.min(config.width * 0.92, config.height - titleReserve);
+  const SCALE = Math.min(1, maxFit / BASE_CONTAINER);
+  const CONTAINER = Math.round(BASE_CONTAINER * SCALE);
+  const CENTER_ICON = Math.round(BASE_CENTER_ICON * SCALE);
+  const SAT_ICON = Math.round(BASE_SAT_ICON * SCALE);
+  const CENTER_LABEL = Math.max(22, Math.round(BASE_CENTER_LABEL * SCALE));
+  const SAT_LABEL = Math.max(18, Math.round(BASE_SAT_LABEL * SCALE));
+  const RADIUS = Math.round(BASE_RADIUS * SCALE);
 
   const lookup = TablerIcons as unknown as Record<string, TablerIconComponent>;
   const cx = CONTAINER / 2;
@@ -58,8 +70,8 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
           const angle = satelliteAngle(i, track.satellites.length);
           const dx = Math.cos(angle);
           const dy = Math.sin(angle);
-          const CENTER_LABEL_CLEARANCE = 92;
-          const SAT_LABEL_CLEARANCE = 72;
+          const CENTER_LABEL_CLEARANCE = Math.round(92 * SCALE);
+          const SAT_LABEL_CLEARANCE = Math.round(72 * SCALE);
           const innerR =
             dy > 0.15 ? CENTER_ICON / 2 + CENTER_LABEL_CLEARANCE : CENTER_ICON / 2 + 18;
           const outerR =

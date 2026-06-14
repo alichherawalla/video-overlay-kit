@@ -74,6 +74,12 @@ export const ListRevealTrackSchema = BaseTrackSchema.extend({
     .min(1)
     .max(5),
   position: PositionSchema.default({ x: 0.5, y: 0.5 }),
+  direction: z
+    .enum(["horizontal", "vertical", "auto"])
+    .default("auto")
+    .describe(
+      "'auto' picks horizontal columns for landscape canvases, vertical rows for portrait. Override per-track if needed.",
+    ),
 });
 
 export const FlowTrackSchema = BaseTrackSchema.extend({
