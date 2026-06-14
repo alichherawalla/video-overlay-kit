@@ -32,13 +32,23 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
       : track.direction;
 
   const isLandscape = config.width > config.height;
-  const ICON_SIZE = isLandscape ? 260 : 180;
-  const ICON_BOX = isLandscape ? 340 : 240;
-  const LABEL_FONT = isLandscape ? 68 : 52;
-  const LABEL_HEIGHT = isLandscape ? 92 : 68;
+  const baseIconSize = isLandscape ? 260 : 180;
+  const baseIconBox = isLandscape ? 340 : 240;
+  const baseLabelFont = isLandscape ? 68 : 52;
+
+  // For horizontal flow on portrait, scale icons against available slot width
+  // so the arrows actually fit between nodes.
+  const horizScale =
+    direction === "horizontal" && !isLandscape
+      ? Math.min(1, (Math.round(config.width * 0.88) / track.nodes.length) / (baseIconBox + 80))
+      : 1;
+  const ICON_SIZE = Math.round(baseIconSize * horizScale);
+  const ICON_BOX = Math.round(baseIconBox * horizScale);
+  const LABEL_FONT = Math.round(baseLabelFont * horizScale);
+  const LABEL_HEIGHT = isLandscape ? 92 : Math.round(68 * horizScale);
   const LABEL_GAP_FROM_ICON = isLandscape ? 12 : 10;
   const ARROW_STROKE = isLandscape ? 7 : 6;
-  const ARROW_HEAD = isLandscape ? 30 : 26;
+  const ARROW_HEAD = Math.round((isLandscape ? 30 : 26) * horizScale);
 
   if (direction === "vertical") {
     const CONTAINER_W = 780;
