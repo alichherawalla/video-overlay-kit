@@ -8,8 +8,9 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
   const palette = usePalette();
   const config = useVideoConfig();
   const isLandscape = config.width > config.height;
-  const titleSize = isLandscape ? 120 : 92;
-  const maxWidth = isLandscape ? 1500 : 960;
+  const titleSize = isLandscape ? 96 : 92;
+  const maxWidth = isLandscape ? 1700 : 960;
+  const titleTop = isLandscape ? 48 : 220;
   const enter = { ...track.enter, kind: track.enter.kind === "fade" ? ("slide-down" as const) : track.enter.kind };
   const style = trackStyle(frame, track.startFrame, track.endFrame, enter, track.exit);
   if (!style.visible) return null;
@@ -30,7 +31,7 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
     <div
       style={{
         position: "absolute",
-        top: 220,
+        top: titleTop,
         left: 0,
         right: 0,
         display: "flex",

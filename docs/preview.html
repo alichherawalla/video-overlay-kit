@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VideoOverlayKit Preview — see your overlay on every platform</title>
+<meta name="description" content="Upload a video or paste an MP4 URL. See it rendered inside YouTube, LinkedIn, Instagram Reels, and X mockups before you publish." />
+<style>
+  :root {
+    --bg: #F0EDF8;
+    --elev-1: #FAF8FF;
+    --ink: #0B0B0D;
+    --ink-muted: #3A3A4A;
+    --ink-dim: #6B6B7E;
+    --accent: #7A5BDC;
+    --accent-deep: #5A3DB8;
+    --hairline: #CCCAE0;
+    --sunset: linear-gradient(135deg, #DE7BAD 0%, #B153D3 28%, #A485F5 58%, #7A5BDC 82%, #5A3DB8 100%);
+    --bloom: radial-gradient(ellipse 80% 60% at 50% 28%, rgba(122,91,220,0.22) 0%, rgba(177,83,211,0.08) 38%, rgba(122,91,220,0.04) 65%, transparent 90%);
+    --font: 'Aeonik', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .gradient-text {
+    background-image: var(--sunset);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  /* nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(240,237,248,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  nav .logo { font-weight: 800; font-size: 16px; letter-spacing: -0.015em; }
+  nav .links { display: flex; gap: 20px; align-items: center; font-size: 14px; color: var(--ink-muted); }
+  nav .links a { color: var(--ink-muted); }
+  nav .links a:hover { color: var(--accent); text-decoration: none; }
+  .btn {
+    display: inline-flex; align-items: center;
+    background: var(--accent); color: #fff;
+    padding: 9px 16px; border-radius: 0;
+    font-weight: 600; font-size: 14px;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    transition: background 160ms ease-out;
+  }
+  .btn:hover { background: var(--accent-deep); border-color: var(--accent-deep); text-decoration: none; }
+  .btn.secondary { background: transparent; color: var(--ink); border-color: var(--hairline); }
+  .btn.secondary:hover { color: var(--accent); border-color: var(--accent); background: transparent; }
+
+  /* hero */
+  .hero {
+    position: relative;
+    padding: 64px 0 32px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .hero::before { content: ""; position: absolute; inset: 0; background: var(--bloom); pointer-events: none; }
+  .hero .wrap { position: relative; z-index: 1; }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 800; line-height: 1.05; letter-spacing: -0.025em; margin: 0 0 16px; }
+  .hero p.lead { font-size: 18px; color: var(--ink-muted); max-width: 640px; margin: 0 auto 36px; line-height: 1.45; }
+
+  /* loader */
+  .loader-card {
+    background: var(--elev-1);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .loader-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .loader-row + .loader-row { margin-top: 14px; }
+  .loader-row label { font-size: 13px; font-weight: 600; color: var(--ink-muted); min-width: 120px; }
+  .loader-row input[type="file"], .loader-row input[type="url"] {
+    flex: 1; min-width: 200px;
+    padding: 10px 12px;
+    border: 1px solid var(--hairline);
+    background: var(--bg);
+    border-radius: 8px;
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .loader-row input[type="url"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+  .loader-meta {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--ink-dim);
+    line-height: 1.55;
+  }
+  .preset-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .preset {
+    font-size: 12px; padding: 6px 10px;
+    background: var(--bg); border: 1px solid var(--hairline); border-radius: 999px;
+    cursor: pointer; color: var(--ink-muted);
+    font-family: var(--font);
+  }
+  .preset:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* mockups grid */
+  .mockups {
+    padding: 48px 0 96px;
+    background: var(--elev-1);
+  }
+  .mockups h2 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .mockups .section-lead { color: var(--ink-muted); margin: 0 0 36px; font-size: 16px; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .platform {
+    background: var(--bg);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .platform .heading {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--elev-1);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; font-weight: 700; letter-spacing: -0.005em;
+  }
+  .platform .heading .pill {
+    font-size: 11px; font-weight: 600; padding: 3px 8px;
+    background: rgba(122,91,220,0.10); color: var(--accent); border-radius: 999px;
+  }
+  .platform .stage {
+    background: #f5f3fb;
+    padding: 24px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 360px;
+  }
+
+  /* --- YouTube mockup --- */
+  .yt-shell {
+    width: 100%;
+    background: #0f0f0f;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #f1f1f1;
+    font-family: 'Roboto', var(--font);
+  }
+  .yt-topbar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    background: #0f0f0f;
+    border-bottom: 1px solid #1f1f1f;
+    font-size: 12px;
+  }
+  .yt-logo { color: #ff0000; font-weight: 700; font-size: 14px; }
+  .yt-search { flex: 1; height: 24px; background: #121212; border: 1px solid #303030; border-radius: 12px; }
+  .yt-player { aspect-ratio: 16 / 9; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .yt-player video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .yt-meta { padding: 12px 14px 16px; }
+  .yt-title { font-size: 14px; font-weight: 700; line-height: 1.35; margin: 0 0 6px; }
+  .yt-row { display: flex; gap: 8px; align-items: center; font-size: 11px; color: #aaa; }
+
+  /* --- Instagram Reel mockup --- */
+  .ig-phone {
+    width: 280px;
+    aspect-ratio: 9 / 19;
+    background: #000;
+    border-radius: 36px;
+    padding: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    position: relative;
+  }
+  .ig-screen {
+    width: 100%; height: 100%;
+    background: #000;
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+  }
+  .ig-screen video { width: 100%; height: 100%; object-fit: cover; background: #000; }
+  .ig-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, transparent 18%, transparent 70%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+  .ig-top {
+    position: absolute; top: 12px; left: 14px; right: 14px;
+    display: flex; justify-content: space-between; align-items: center;
+    color: #fff; font-size: 12px; font-weight: 700;
+  }
+  .ig-bottom {
+    position: absolute; bottom: 16px; left: 14px; right: 70px;
+    color: #fff; font-size: 11px; line-height: 1.4;
+  }
+  .ig-bottom .user { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+  .ig-actions {
+    position: absolute; bottom: 18px; right: 12px;
+    display: flex; flex-direction: column; gap: 18px;
+    align-items: center; color: #fff; font-size: 11px;
+  }
+  .ig-action { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .ig-action .icon { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
+
+  /* --- LinkedIn mockup --- */
+  .li-post {
+    width: 100%; max-width: 460px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: rgba(0,0,0,0.9);
+  }
+  .li-head { padding: 12px 16px 8px; display: flex; gap: 10px; align-items: center; }
+  .li-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #7A5BDC, #DE7BAD); }
+  .li-meta { font-size: 12px; line-height: 1.4; }
+  .li-meta .name { font-weight: 700; color: #000; }
+  .li-meta .role { color: #666; font-size: 11px; }
+  .li-caption { padding: 0 16px 10px; font-size: 13px; line-height: 1.5; color: #000; }
+  .li-video { background: #000; aspect-ratio: 16 / 9; overflow: hidden; }
+  .li-video.portrait { aspect-ratio: 9 / 16; }
+  .li-video video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .li-actions { display: flex; gap: 12px; padding: 8px 16px; border-top: 1px solid #f0f0f0; font-size: 12px; color: #666; font-weight: 600; }
+
+  /* --- X / Twitter mockup --- */
+  .x-tweet {
+    width: 100%; max-width: 460px;
+    background: #000;
+    color: #e7e9ea;
+    border: 1px solid #2f3336;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .x-head { padding: 14px 16px 6px; display: flex; gap: 12px; align-items: flex-start; }
+  .x-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #DE7BAD, #5A3DB8); flex-shrink: 0; }
+  .x-name { font-weight: 700; font-size: 14px; color: #e7e9ea; }
+  .x-handle { font-size: 13px; color: #71767b; }
+  .x-text { padding: 0 16px 12px 16px; font-size: 14px; line-height: 1.4; }
+  .x-video { background: #000; aspect-ratio: 16 / 9; overflow: hidden; border-top: 1px solid #2f3336; border-bottom: 1px solid #2f3336; }
+  .x-video.portrait { aspect-ratio: 9 / 16; }
+  .x-video video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .x-actions { display: flex; gap: 36px; padding: 10px 16px; font-size: 12px; color: #71767b; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--hairline); padding: 24px 0; color: var(--ink-dim); font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer .links { display: flex; gap: 18px; }
+  footer a { color: var(--ink-dim); }
+
+  /* responsive */
+  @media (max-width: 920px) {
+    .grid { grid-template-columns: 1fr; }
+    .ig-phone { width: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo gradient-text">VideoOverlayKit · Preview</div>
+    <div class="links">
+      <a href="./index.html">Home</a>
+      <a href="https://github.com/alichherawalla/video-overlay-kit">GitHub</a>
+      <a class="btn" href="https://github.com/sponsors/alichherawalla">♡ Sponsor</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Preview · YouTube · LinkedIn · Instagram Reels · X</p>
+    <h1>See your overlay on <span class="gradient-text">every platform</span></h1>
+    <p class="lead">Upload an MP4 or paste a URL. The same clip renders inside platform-accurate mockups so you can sanity-check before you publish.</p>
+
+    <div class="loader-card">
+      <div class="loader-row">
+        <label for="file-input">Upload MP4</label>
+        <input id="file-input" type="file" accept="video/*" />
+      </div>
+      <div class="loader-row">
+        <label for="url-input">…or URL</label>
+        <input id="url-input" type="url" placeholder="https://example.com/clip.mp4" />
+        <button class="btn" id="url-load">Load</button>
+      </div>
+      <div class="loader-meta">
+        Files load locally via blob URL. Nothing uploads. URLs must allow cross-origin video. Try one of the bundled examples:
+      </div>
+      <div class="preset-row">
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.mp4">list-reveal · portrait</button>
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow.mp4">flow · portrait</button>
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison-landscape.mp4">comparison · landscape</button>
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub-landscape.mp4">hub · landscape</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mockups">
+  <div class="wrap">
+    <h2>How it plays on each platform</h2>
+    <p class="section-lead">Vertical clips look right on Instagram Reels and YouTube Shorts. Landscape clips look right on YouTube and LinkedIn. The mockups letterbox whichever way you go so you can see exactly what your viewer sees.</p>
+
+    <div class="grid">
+
+      <!-- YouTube -->
+      <div class="platform">
+        <div class="heading">
+          <span>YouTube · 16:9</span>
+          <span class="pill">desktop / TV</span>
+        </div>
+        <div class="stage">
+          <div class="yt-shell">
+            <div class="yt-topbar">
+              <span class="yt-logo">▶ YouTube</span>
+              <div class="yt-search"></div>
+            </div>
+            <div class="yt-player">
+              <video id="yt-video" muted autoplay loop playsinline></video>
+            </div>
+            <div class="yt-meta">
+              <p class="yt-title">Your video title here</p>
+              <div class="yt-row">Wednesday Solutions · 1.2K views · 1 hour ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instagram Reel -->
+      <div class="platform">
+        <div class="heading">
+          <span>Instagram Reels · 9:16</span>
+          <span class="pill">mobile</span>
+        </div>
+        <div class="stage">
+          <div class="ig-phone">
+            <div class="ig-screen">
+              <video id="ig-video" muted autoplay loop playsinline></video>
+              <div class="ig-overlay"></div>
+              <div class="ig-top">
+                <span>Reels</span>
+                <span>⌄</span>
+              </div>
+              <div class="ig-bottom">
+                <div class="user">@alichherawalla</div>
+                <div>Your caption here · #AI #BFSI #ReelsThatShip</div>
+              </div>
+              <div class="ig-actions">
+                <div class="ig-action"><div class="icon">♡</div><div>2.1k</div></div>
+                <div class="ig-action"><div class="icon">💬</div><div>84</div></div>
+                <div class="ig-action"><div class="icon">↗</div><div>Share</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LinkedIn -->
+      <div class="platform">
+        <div class="heading">
+          <span>LinkedIn · 16:9 or 9:16</span>
+          <span class="pill">feed post</span>
+        </div>
+        <div class="stage">
+          <div class="li-post">
+            <div class="li-head">
+              <div class="li-avatar"></div>
+              <div class="li-meta">
+                <div class="name">Mohammed Ali Chherawalla</div>
+                <div class="role">Co-founder · Wednesday Solutions · 1h · 🌎</div>
+              </div>
+            </div>
+            <div class="li-caption">If your team is still doing manual review, you're already behind. Three things change when you ship the new playbook ↓</div>
+            <div class="li-video" id="li-video-wrap">
+              <video id="li-video" muted autoplay loop playsinline></video>
+            </div>
+            <div class="li-actions">
+              <span>👍 Like</span><span>💬 Comment</span><span>↗ Repost</span><span>✉ Send</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- X / Twitter -->
+      <div class="platform">
+        <div class="heading">
+          <span>X · 16:9 or 9:16</span>
+          <span class="pill">tweet</span>
+        </div>
+        <div class="stage">
+          <div class="x-tweet">
+            <div class="x-head">
+              <div class="x-avatar"></div>
+              <div>
+                <div class="x-name">Mac · CRO Wednesday</div>
+                <div class="x-handle">@aliChherawalla · 1h</div>
+              </div>
+            </div>
+            <div class="x-text">Built this in a weekend. Free, MCP, runs locally. Drop in for your reel pipeline.</div>
+            <div class="x-video" id="x-video-wrap">
+              <video id="x-video" muted autoplay loop playsinline></video>
+            </div>
+            <div class="x-actions">
+              <span>💬 42</span><span>🔁 18</span><span>♡ 312</span><span>📊 12K</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Mohammed Ali Chherawalla · MIT</div>
+    <div class="links">
+      <a href="./index.html">Home</a>
+      <a href="https://github.com/alichherawalla/video-overlay-kit">GitHub</a>
+      <a href="https://github.com/sponsors/alichherawalla">Sponsor</a>
+      <a href="https://wednesday.is">Wednesday Solutions</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const videos = ["yt-video", "ig-video", "li-video", "x-video"].map(id => document.getElementById(id));
+  const liWrap = document.getElementById("li-video-wrap");
+  const xWrap = document.getElementById("x-video-wrap");
+
+  const detectAspectAndSetWrappers = (videoEl) => {
+    videoEl.addEventListener("loadedmetadata", () => {
+      const portrait = videoEl.videoHeight > videoEl.videoWidth;
+      liWrap.classList.toggle("portrait", portrait);
+      xWrap.classList.toggle("portrait", portrait);
+    }, { once: true });
+  };
+
+  const setVideoSrc = (src) => {
+    videos.forEach(v => {
+      v.src = src;
+      v.load();
+      v.play().catch(() => {});
+    });
+    detectAspectAndSetWrappers(videos[0]);
+  };
+
+  // initial: load list-reveal as the demo
+  setVideoSrc("https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.mp4");
+
+  document.getElementById("file-input").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setVideoSrc(url);
+  });
+
+  const urlInput = document.getElementById("url-input");
+  document.getElementById("url-load").addEventListener("click", () => {
+    if (urlInput.value.trim()) setVideoSrc(urlInput.value.trim());
+  });
+  urlInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && urlInput.value.trim()) setVideoSrc(urlInput.value.trim());
+  });
+
+  document.querySelectorAll(".preset").forEach(btn => {
+    btn.addEventListener("click", () => setVideoSrc(btn.dataset.url));
+  });
+</script>
+
+</body>
+</html>
