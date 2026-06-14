@@ -77,8 +77,10 @@
   nav .logo { font-weight: 800; font-size: 17px; letter-spacing: -0.015em; }
   nav .logo .gradient-text { font-weight: 800; }
   nav .links { display: flex; gap: 28px; align-items: center; font-size: 15px; color: var(--ink-muted); }
-  nav .links a { color: var(--ink-muted); }
-  nav .links a:hover { color: var(--accent); text-decoration: none; }
+  nav .links > a { color: var(--ink-muted); }
+  nav .links > a:hover { color: var(--accent); text-decoration: none; }
+  nav .links a.btn-primary { color: #fff; }
+  nav .links a.btn-primary:hover { color: #fff; text-decoration: none; }
   .btn-primary {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--accent); color: #fff;
