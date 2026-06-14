@@ -18,7 +18,7 @@
     {
       "kind": "list-reveal",
       "id": "three-outcomes",
-      "position": { "x": 0.5, "y": 0.5 },
+      "position": { "x": 0.5, "y": 0.45 },
       "startFrame": 20,
       "endFrame": 150,
       "rows": [
