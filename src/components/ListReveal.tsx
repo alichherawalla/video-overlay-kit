@@ -10,8 +10,10 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ROW_HEIGHT = 160;
-const ROW_GAP = 36;
+const ROW_HEIGHT = 220;
+const ROW_GAP = 52;
+const ICON_SIZE = 132;
+const TEXT_SIZE = 64;
 const REVEAL_DURATION = 10;
 
 export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
@@ -58,16 +60,17 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
           >
             {Icon ? (
               <div style={{ display: "flex", flexShrink: 0 }}>
-                <Icon size={88} color={palette.accent} stroke={2.2} />
+                <Icon size={ICON_SIZE} color={palette.accent} stroke={2.2} />
               </div>
             ) : null}
             <div
               style={{
                 fontFamily: FONT_FAMILY,
-                fontSize: 52,
-                fontWeight: 500,
-                color: palette.ink,
-                lineHeight: 1.25,
+                fontSize: TEXT_SIZE,
+                fontWeight: 600,
+                color: palette.accentDeep,
+                lineHeight: 1.18,
+                letterSpacing: "-0.01em",
               }}
             >
               {row.text}
