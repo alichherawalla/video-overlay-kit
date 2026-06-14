@@ -221,12 +221,12 @@ export const SceneSpecSchema = z
       .describe("Optional palette overrides. Merges over the selected theme; any unset key falls back to the theme."),
     bloom: z
       .boolean()
-      .default(true)
-      .describe("Render the theme's ambient bloom gradient behind tracks. Default true. Set false for a flat canvas."),
+      .default(false)
+      .describe("Render the theme's ambient bloom gradient behind tracks. Default false (flat canvas — Wednesday reel canon). Set true to enable bloom."),
     titleGradient: z
       .boolean()
-      .default(true)
-      .describe("Render title-overlay text in the theme's sunset gradient. Default true. Set false for solid ink color."),
+      .default(false)
+      .describe("Render title-overlay text in the theme's sunset gradient. Default false (solid ink color — Wednesday reel canon). Set true for gradient title."),
     tracks: z.array(TrackSchema),
   })
   .refine(

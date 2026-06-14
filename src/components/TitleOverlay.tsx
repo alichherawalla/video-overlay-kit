@@ -15,7 +15,7 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
   const style = trackStyle(frame, track.startFrame, track.endFrame, enter, track.exit);
   if (!style.visible) return null;
 
-  const useGradient = track.useGradient ?? true;
+  const useGradient = track.useGradient ?? false;
 
   const textStyle: React.CSSProperties = useGradient
     ? {
