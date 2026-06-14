@@ -174,6 +174,7 @@
     overflow: hidden;
   }
   .card .media img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .gallery.landscape .card .media { aspect-ratio: 16 / 9; }
   .card .body { padding: 24px 28px 28px; }
   .card h3 code {
     color: var(--accent);
@@ -342,6 +343,68 @@
           <div class="links">
             <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/hub.json">spec.json</a>
             <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="eyebrow" style="margin-top: 80px;">Landscape mode</p>
+    <h2 style="font-size: clamp(28px, 4vw, 44px);">Same kit, 1920×1080.</h2>
+    <p class="section-lead">Swap <code>width</code> and <code>height</code> on the spec. Components auto-flip orientation. Flow goes left-to-right, comparison sits side-by-side.</p>
+
+    <div class="gallery landscape">
+      <div class="card">
+        <div class="media" style="aspect-ratio: 16 / 9;">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal-landscape.gif" alt="list-reveal landscape" />
+        </div>
+        <div class="body">
+          <h3><code>list-reveal</code> · landscape</h3>
+          <p>Two-row list in 1920×1080. The rows scale down so they fit the shorter canvas.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/list-reveal-landscape.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal-landscape.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="media" style="aspect-ratio: 16 / 9;">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow-landscape.gif" alt="flow landscape" />
+        </div>
+        <div class="body">
+          <h3><code>flow</code> · landscape</h3>
+          <p>Same three nodes, arranged left to right with horizontal arrows.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/flow-landscape.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow-landscape.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="media" style="aspect-ratio: 16 / 9;">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison-landscape.gif" alt="comparison landscape" />
+        </div>
+        <div class="body">
+          <h3><code>comparison</code> · landscape</h3>
+          <p>Side by side with a vertical divider line. Reads naturally in landscape.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/comparison-landscape.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison-landscape.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="media" style="aspect-ratio: 16 / 9;">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub-landscape.gif" alt="hub landscape" />
+        </div>
+        <div class="body">
+          <h3><code>hub</code> · landscape</h3>
+          <p>Same circular layout, four satellites cardinal. Works in any aspect.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/hub-landscape.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub-landscape.mp4">mp4</a>
           </div>
         </div>
       </div>
