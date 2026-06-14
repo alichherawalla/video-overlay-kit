@@ -10,12 +10,12 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const CONTAINER = 960;
-const CENTER_ICON = 180;
-const SAT_ICON = 116;
-const CENTER_LABEL = 40;
-const SAT_LABEL = 32;
-const RADIUS = 330;
+const CONTAINER = 1000;
+const CENTER_ICON = 220;
+const SAT_ICON = 140;
+const CENTER_LABEL = 48;
+const SAT_LABEL = 38;
+const RADIUS = 360;
 const LINE_DRAW_FRAMES = 12;
 const NODE_REVEAL_FRAMES = 10;
 
@@ -58,8 +58,8 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
           const angle = satelliteAngle(i, track.satellites.length);
           const dx = Math.cos(angle);
           const dy = Math.sin(angle);
-          const CENTER_LABEL_CLEARANCE = 78;
-          const SAT_LABEL_CLEARANCE = 60;
+          const CENTER_LABEL_CLEARANCE = 92;
+          const SAT_LABEL_CLEARANCE = 72;
           const innerR =
             dy > 0.15 ? CENTER_ICON / 2 + CENTER_LABEL_CLEARANCE : CENTER_ICON / 2 + 18;
           const outerR =
@@ -117,7 +117,7 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
           }}
         >
           {CenterIcon ? (
-            <CenterIcon size={CENTER_ICON - 32} color={accentStrokeUrl} stroke={2.4} />
+            <CenterIcon size={CENTER_ICON - 36} color={accentStrokeUrl} stroke={2.4} />
           ) : (
             <div style={{ color: "red", fontFamily: "monospace", fontSize: 14 }}>missing: {track.center.iconName}</div>
           )}
@@ -174,7 +174,7 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
               }}
             >
               {Icon ? (
-                <Icon size={SAT_ICON - 24} color={accentStrokeUrl} stroke={2.3} />
+                <Icon size={SAT_ICON - 28} color={accentStrokeUrl} stroke={2.3} />
               ) : (
                 <div style={{ color: "red", fontFamily: "monospace", fontSize: 12 }}>missing: {sat.iconName}</div>
               )}

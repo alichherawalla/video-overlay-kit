@@ -18,7 +18,7 @@
     {
       "kind": "comparison",
       "id": "old-vs-new",
-      "position": { "x": 0.5, "y": 0.55 },
+      "position": { "x": 0.5, "y": 0.6 },
       "startFrame": 20,
       "endFrame": 180,
       "left": { "iconName": "IconClockHour3", "label": "Old way", "subLabel": "Manual review" },

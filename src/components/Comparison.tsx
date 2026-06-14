@@ -10,9 +10,9 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ICON_SIZE = 168;
+const ICON_SIZE = 200;
 const LABEL_FONT = 64;
-const SUBLABEL_FONT = 36;
+const SUBLABEL_FONT = 38;
 const REVEAL_FRAMES = 12;
 
 export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
@@ -105,9 +105,9 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
   };
 
   if (direction === "vertical") {
-    const CONTAINER_W = 900;
-    const SIDE_H = 460;
-    const DIVIDER_H = 160;
+    const CONTAINER_W = 940;
+    const SIDE_H = 520;
+    const DIVIDER_H = 180;
     const CONTAINER_H = SIDE_H * 2 + DIVIDER_H;
 
     return (

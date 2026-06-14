@@ -10,10 +10,10 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ROW_HEIGHT = 250;
-const ROW_GAP = 60;
-const ICON_SIZE = 160;
-const TEXT_SIZE = 76;
+const ROW_HEIGHT = 280;
+const ROW_GAP = 56;
+const ICON_SIZE = 200;
+const TEXT_SIZE = 64;
 const REVEAL_DURATION = 10;
 
 export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
@@ -33,7 +33,7 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
         top: `${track.position.y * 100}%`,
         transform: `translate(-50%, -50%) ${containerStyle.transform}`,
         opacity: containerStyle.opacity,
-        width: 960,
+        width: 1000,
         height: totalHeight,
         display: "flex",
         flexDirection: "column",
@@ -52,7 +52,7 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
               height: ROW_HEIGHT,
               display: "flex",
               alignItems: "center",
-              gap: 36,
+              gap: 44,
               padding: "0 12px",
               opacity: p,
               transform: `translateY(${ty}px)`,

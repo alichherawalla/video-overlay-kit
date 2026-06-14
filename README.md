@@ -486,6 +486,12 @@ Zero per render. Local CPU and disk only. Free for individual use and small team
 - [LottieFiles](https://lottiefiles.com/) is the Lottie animation marketplace.
 - [Model Context Protocol](https://modelcontextprotocol.io/) is the standard used to expose the kit to Claude Code.
 
+## Support the project
+
+VideoOverlayKit is free and MIT-licensed. If the kit saves you time or render budget, the easiest way to give back is to [sponsor the project on GitHub](https://github.com/sponsors/alichherawalla). Sponsorships fund new components, better defaults, and bug fixes that ship faster than I can do them in evenings.
+
+Wednesday Solutions ([wednesday.is](https://wednesday.is)) is the studio behind the design system. If you want a custom build, a theme that matches your brand, or production help shipping AI features for a regulated industry, that's the way to reach the team.
+
 ## License
 
 MIT.
