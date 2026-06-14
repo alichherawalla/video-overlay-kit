@@ -9,7 +9,7 @@
     {
       "kind": "title-overlay",
       "id": "agenda",
-      "text": "How to control AI traffic in your company",
+      "text": "How to control AI traffic",
       "startFrame": 0,
       "endFrame": 150,
       "enter": { "kind": "slide-down", "durationFrames": 10, "ease": "easeOut" },

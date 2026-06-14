@@ -1,4 +1,16 @@
-# VideoOverlayKit
+<p align="center">
+  <img src="docs/assets/logo.png" alt="VideoOverlayKit logo" width="120" />
+</p>
+
+<h1 align="center">VideoOverlayKit</h1>
+
+<p align="center"><strong>Make b-roll for your videos. Tell an agent what you want. Get an MP4 back.</strong></p>
+
+<p align="center">
+  <img src="docs/assets/og.png" alt="VideoOverlayKit cover" width="100%" />
+</p>
+
+---
 
 **Make b-roll for your videos. Tell an agent what you want. Get an MP4 back.**
 
