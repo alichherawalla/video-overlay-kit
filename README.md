@@ -2,17 +2,79 @@
 
 **Create b-roll animations for technical videos. High-quality content, free. Runs on your machine.**
 
-You write a scene spec (icons + text + timings); the kit renders an MP4. No per-render cost, no API calls, no cloud. Drive it from Claude Code via MCP, or from the CLI directly.
+You write a scene spec (icons + text + timings); the kit renders an MP4. No per-render cost, no API calls, no cloud.
+
+---
+
+## The fastest path: Claude Code via MCP
+
+The kit is built to be driven from [Claude Code](https://claude.com/claude-code). You don't hand-edit JSON — you describe the overlay you want and Claude authors the spec, validates it, and renders the MP4.
 
 ```
+You: "Make a 5-second overlay titled 'A runbook for every incident' with three
+     rows: Drift, Prompt injection, Exfil attempts. Save to ./out.mp4."
+
+Claude Code (via the kit's MCP tools):
+  1. Calls list_icons("alert")  → finds IconAlertTriangle, IconBug, IconCloudDownload
+  2. Authors the scene spec
+  3. Calls validate_scene(spec) → ok
+  4. Calls render_scene(spec, "./out.mp4")
+  5. Returns the file path
+```
+
+You drop the resulting MP4 into your editor. The whole loop is 10–20 seconds.
+
+### Onboarding (one-time)
+
+```bash
 git clone git@github.com:alichherawalla/video-overlay-kit.git
 cd video-overlay-kit
 npm install
+```
+
+Then add to your project's `.mcp.json` (or your global `~/.claude/mcp_settings.json`):
+
+```json
+{
+  "mcpServers": {
+    "video-overlay-kit": {
+      "command": "node",
+      "args": ["/absolute/path/to/video-overlay-kit/bin/mcp.mjs"]
+    }
+  }
+}
+```
+
+Restart Claude Code. Three tools appear under `video-overlay-kit`:
+
+| Tool | What it does |
+|---|---|
+| `list_icons(query?, limit?)` | Search the Tabler icon library by substring. ~5,000 line icons. |
+| `validate_scene(spec)` | Schema check, no render. |
+| `render_scene(spec, outPath?)` | Render the scene and return the MP4 path. |
+
+That's the whole onboarding path. First render downloads a headless Chrome (~93 MB) one time.
+
+### What you can configure via MCP
+
+Everything in the scene spec is exposed through `render_scene`. Just ask in plain language:
+
+- **Theme** — *"render it in dark mode"* → `theme: "dark"`
+- **Background color** — *"use a black background"* → `background: "#000000"`
+- **Background image** — *"put the team photo at public/team.jpg behind it"* → `backgroundImage: { source: "team.jpg", opacity: 0.4 }`
+- **Custom palette** — *"use red as the accent instead of lavender"* → `palette: { accent: "#E74C3C" }`
+- **Transparent overlay** — *"render with alpha so I can composite over my talking head"* → `background: "transparent"`
+
+See the [Theme](#theme) and [Scene spec](#scene-spec-top-level) sections for the full surface.
+
+### Or use the CLI directly
+
+If you'd rather not go through MCP:
+
+```bash
 npm run render examples/list-reveal.json
 # -> examples/list-reveal.mp4
 ```
-
-That's the whole onboarding path. First render downloads a headless Chrome (~93 MB) one time.
 
 ---
 
@@ -86,6 +148,8 @@ Every render takes a scene spec (JSON) and produces an MP4 (or `.mov` if you opt
 | `height` | `int` | `1920` | Canvas height in px. Default is 9:16 vertical. |
 | `theme` | `"light" \| "dark"` | `"light"` | Color palette. Default is the Wednesday Solutions light palette. See [Theme](#theme). |
 | `background` | `string` | (from theme) | Any CSS color, or `"transparent"` for an alpha-channel `.mov` render. If omitted, uses the theme's canvas color. |
+| `backgroundImage` | `BackgroundImage?` | none | Optional image rendered behind the tracks. See [Background image](#background-image). |
+| `palette` | `Partial<Palette>?` | none | Per-scene color overrides that merge over the theme. See [Theme](#theme). |
 | `tracks` | `Track[]` | required | The list of track objects (see below). |
 
 Minimal example:
@@ -167,9 +231,62 @@ If you want the dark canvas with light theme colors (or any other mismatch), set
 
 The theme controls icon/text colors; `background` is independent.
 
-### Customizing the palette
+### Overriding individual colors per scene
 
-Edit `src/scene/theme.ts` to change either palette or add a new one. The palettes are typed via the `Palette` interface — all tokens are required.
+You don't have to edit `theme.ts` to recolor a scene — pass a `palette` object on the spec. Any keys you set win; everything else falls back to the theme.
+
+```jsonc
+{
+  "theme": "light",
+  "palette": {
+    "accent": "#E74C3C",       // red accent instead of lavender
+    "background": "#0F0F12"    // dark canvas with light-theme ink
+  },
+  "durationFrames": 150,
+  "tracks": [ /* ... */ ]
+}
+```
+
+The override is a `Partial<Palette>`. Tokens you can set: `background`, `ink`, `inkMuted`, `inkDim`, `accent`, `accentDeep`, `hairline`.
+
+### Customizing the palette globally
+
+Edit `src/scene/theme.ts` to change a palette or add a new one. The palettes are typed via the `Palette` interface — all tokens are required.
+
+---
+
+## Background image
+
+Render an image behind the tracks. Useful when you want overlays sitting on top of an existing scene (a charcoal sketch you generated separately, a photo, a brand backdrop).
+
+```jsonc
+{
+  "id": "with-bg",
+  "durationFrames": 150,
+  "backgroundImage": {
+    "source": "team-photo.jpg",
+    "opacity": 0.4,
+    "fit": "cover",
+    "tint": "#000000",
+    "tintOpacity": 0.3
+  },
+  "tracks": [ /* ... */ ]
+}
+```
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `source` | `string` | required | URL (`https://...`, `data:...`) or a path relative to `public/`. |
+| `opacity` | `number` | `1` | Image opacity, 0..1. Use lower values to dim the image so overlays read. |
+| `fit` | `"cover" \| "contain"` | `"cover"` | CSS `object-fit`. `cover` fills the frame; `contain` letterboxes. |
+| `tint` | `string` | none | Optional CSS color drawn as a flat layer on top of the image (e.g. for darkening). |
+| `tintOpacity` | `number` | `0` | Opacity of the tint layer. Use `0.2`–`0.5` to darken a photo so foreground text stays readable. |
+
+**Loading local files:** drop the image into `public/` at the kit root (create the directory if it doesn't exist). Then reference it by its filename: `"source": "team.jpg"` loads `public/team.jpg`.
+
+**Loading remote files:** any `https://` URL works. The kit fetches it at render time.
+
+**Rendering order:** the layers stack as `background color → image → tint → tracks`. The solid background still applies; the image sits over it (useful when the image has transparency).
 
 ### Font
 

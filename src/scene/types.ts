@@ -174,6 +174,30 @@ export const SceneSpecSchema = z
       .describe(
         "CSS color or 'transparent'. If omitted, uses the theme's background. Set 'transparent' to render with alpha channel.",
       ),
+    backgroundImage: z
+      .object({
+        source: z
+          .string()
+          .describe("URL (https://...) or path relative to public/. The image is rendered behind all tracks."),
+        opacity: z.number().min(0).max(1).default(1),
+        fit: z.enum(["cover", "contain"]).default("cover"),
+        tint: z.string().optional().describe("CSS color overlay drawn on top of the image (e.g. for darkening)."),
+        tintOpacity: z.number().min(0).max(1).default(0),
+      })
+      .optional()
+      .describe("Optional background image. Renders behind the solid background color."),
+    palette: z
+      .object({
+        background: z.string().optional(),
+        ink: z.string().optional(),
+        inkMuted: z.string().optional(),
+        inkDim: z.string().optional(),
+        accent: z.string().optional(),
+        accentDeep: z.string().optional(),
+        hairline: z.string().optional(),
+      })
+      .optional()
+      .describe("Optional palette overrides. Merges over the selected theme; any unset key falls back to the theme."),
     tracks: z.array(TrackSchema),
   })
   .refine(

@@ -10,8 +10,12 @@ const ALL_ICON_NAMES = Object.keys(TablerIcons).filter((k) => k.startsWith("Icon
 const SCENE_SCHEMA_HINT = {
   type: "object",
   description:
-    "A scene spec. Top-level: { id, durationFrames, fps?, width?, height?, background?, tracks[] }. " +
-    "durationFrames/fps MUST be between 4 and 6 seconds. Default fps=30, width=1080, height=1920, background='#ffffff'. " +
+    "A scene spec. Top-level: { id, durationFrames, fps?, width?, height?, theme?, background?, backgroundImage?, palette?, tracks[] }. " +
+    "durationFrames/fps MUST be between 4 and 6 seconds. Default fps=30, width=1080, height=1920. " +
+    "theme='light' (default) or 'dark' selects the Wednesday Solutions palette. " +
+    "background overrides the theme's canvas color; set 'transparent' for an alpha-channel .mov render. " +
+    "backgroundImage={source(URL or public/ path), opacity?=1, fit?='cover'|'contain', tint?, tintOpacity?=0} renders behind tracks. " +
+    "palette={background?, ink?, inkMuted?, inkDim?, accent?, accentDeep?, hairline?} overrides individual theme colors. " +
     "Each track has { kind, id, startFrame, endFrame, enter?, exit? } plus kind-specific fields. " +
     "Kinds: 'title-overlay' (text), 'list-reveal' (rows[].{text, iconName?, revealAtFrame}, position{x,y}), " +
     "'flow' (nodes[].{iconName, label}, position{x,y}, direction='horizontal', revealCadenceFrames=35 — left-to-right icon flow with arrows drawing between them), " +
