@@ -58,7 +58,7 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
           >
             {Icon ? (
               <div style={{ display: "flex", flexShrink: 0 }}>
-                <Icon size={88} color={palette.ink} stroke={2} />
+                <Icon size={88} color={palette.accent} stroke={2.2} />
               </div>
             ) : null}
             <div

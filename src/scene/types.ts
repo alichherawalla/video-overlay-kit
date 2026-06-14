@@ -88,7 +88,10 @@ export const FlowTrackSchema = BaseTrackSchema.extend({
     .min(2)
     .max(5),
   position: PositionSchema.default({ x: 0.5, y: 0.55 }),
-  direction: z.enum(["horizontal"]).default("horizontal"),
+  direction: z
+    .enum(["horizontal", "vertical", "auto"])
+    .default("auto")
+    .describe("'auto' picks vertical for portrait canvases, horizontal for landscape."),
   revealCadenceFrames: z
     .number()
     .int()
@@ -117,6 +120,12 @@ export const ComparisonTrackSchema = BaseTrackSchema.extend({
     .default({}),
   position: PositionSchema.default({ x: 0.5, y: 0.55 }),
   revealCadenceFrames: z.number().int().min(8).default(25),
+  direction: z
+    .enum(["horizontal", "vertical", "auto"])
+    .default("auto")
+    .describe(
+      "'auto' picks vertical (stacked top/bottom) for portrait canvases, horizontal (side-by-side) for landscape.",
+    ),
 });
 
 export const HubTrackSchema = BaseTrackSchema.extend({
