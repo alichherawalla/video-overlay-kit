@@ -2,6 +2,7 @@ import * as TablerIcons from "@tabler/icons-react";
 import type { ListRevealTrack } from "../scene/types";
 import { useCurrentFrame } from "remotion";
 import { trackStyle, phaseProgress } from "../motion/primitives";
+import { usePalette, FONT_FAMILY } from "../scene/theme";
 
 type TablerIconComponent = React.ComponentType<{
   size?: number | string;
@@ -15,6 +16,7 @@ const REVEAL_DURATION = 10;
 
 export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
   const frame = useCurrentFrame();
+  const palette = usePalette();
   const containerStyle = trackStyle(frame, track.startFrame, track.endFrame, track.enter, track.exit);
   if (!containerStyle.visible) return null;
 
@@ -56,15 +58,15 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
           >
             {Icon ? (
               <div style={{ display: "flex", flexShrink: 0 }}>
-                <Icon size={88} color="#1a1a1a" stroke={2} />
+                <Icon size={88} color={palette.ink} stroke={2} />
               </div>
             ) : null}
             <div
               style={{
-                fontFamily: "Inter, system-ui, sans-serif",
+                fontFamily: FONT_FAMILY,
                 fontSize: 52,
                 fontWeight: 500,
-                color: "#1a1a1a",
+                color: palette.ink,
                 lineHeight: 1.25,
               }}
             >

@@ -1,9 +1,11 @@
 import type { TitleOverlayTrack } from "../scene/types";
 import { useCurrentFrame } from "remotion";
 import { trackStyle } from "../motion/primitives";
+import { usePalette, FONT_FAMILY } from "../scene/theme";
 
 export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) => {
   const frame = useCurrentFrame();
+  const palette = usePalette();
   const enter = { ...track.enter, kind: track.enter.kind === "fade" ? ("slide-down" as const) : track.enter.kind };
   const style = trackStyle(frame, track.startFrame, track.endFrame, enter, track.exit);
   if (!style.visible) return null;
@@ -27,13 +29,13 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
         style={{
           padding: "0 60px",
           maxWidth: 960,
-          color: "#1a1a1a",
+          color: palette.ink,
           fontSize: 80,
           fontWeight: 700,
-          fontFamily: "Inter, system-ui, sans-serif",
+          fontFamily: FONT_FAMILY,
           textAlign: "center",
           lineHeight: 1.12,
-          letterSpacing: "-0.01em",
+          letterSpacing: "-0.015em",
         }}
       >
         {track.text}
@@ -42,7 +44,7 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
         style={{
           width: 160,
           height: 4,
-          background: "#1a1a1a",
+          background: palette.accent,
           borderRadius: 2,
         }}
       />
