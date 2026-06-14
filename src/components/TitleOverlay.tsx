@@ -37,7 +37,7 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: 0,
+        gap: 18,
         transform: style.transform,
         opacity: style.opacity,
       }}
@@ -57,6 +57,14 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
       >
         {track.text}
       </div>
+      <div
+        style={{
+          width: isLandscape ? 220 : 160,
+          height: 4,
+          background: palette.accent,
+          borderRadius: 2,
+        }}
+      />
     </div>
   );
 };
