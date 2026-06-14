@@ -1,11 +1,15 @@
 import type { TitleOverlayTrack } from "../scene/types";
-import { useCurrentFrame } from "remotion";
+import { useCurrentFrame, useVideoConfig } from "remotion";
 import { trackStyle } from "../motion/primitives";
 import { usePalette, FONT_FAMILY } from "../scene/theme";
 
 export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) => {
   const frame = useCurrentFrame();
   const palette = usePalette();
+  const config = useVideoConfig();
+  const isLandscape = config.width > config.height;
+  const titleSize = isLandscape ? 120 : 92;
+  const maxWidth = isLandscape ? 1500 : 960;
   const enter = { ...track.enter, kind: track.enter.kind === "fade" ? ("slide-down" as const) : track.enter.kind };
   const style = trackStyle(frame, track.startFrame, track.endFrame, enter, track.exit);
   if (!style.visible) return null;
@@ -40,8 +44,8 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
       <div
         style={{
           padding: "0 60px",
-          maxWidth: 960,
-          fontSize: 92,
+          maxWidth,
+          fontSize: titleSize,
           fontWeight: 800,
           fontFamily: FONT_FAMILY,
           textAlign: "center",

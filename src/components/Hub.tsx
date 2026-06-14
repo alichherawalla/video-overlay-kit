@@ -30,20 +30,31 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
   const containerStyle = trackStyle(frame, track.startFrame, track.endFrame, track.enter, track.exit);
   if (!containerStyle.visible) return null;
 
-  // Hub is square. Fit it inside the canvas with breathing room for the title.
+  // Fit the hub into the canvas with breathing room for the title.
+  const isLandscape = config.width > config.height;
   const titleReserve = 420;
-  const maxFit = Math.min(config.width * 0.92, config.height - titleReserve);
-  const SCALE = Math.min(1, maxFit / BASE_CONTAINER);
-  const CONTAINER = Math.round(BASE_CONTAINER * SCALE);
+  const heightFit = config.height - titleReserve;
+  const widthFit = Math.round(config.width * 0.92);
+
+  // Scale icons + labels uniformly so they don't look distorted, sized to the shorter dim.
+  const SCALE = Math.min(1, heightFit / BASE_CONTAINER);
   const CENTER_ICON = Math.round(BASE_CENTER_ICON * SCALE);
   const SAT_ICON = Math.round(BASE_SAT_ICON * SCALE);
   const CENTER_LABEL = Math.max(22, Math.round(BASE_CENTER_LABEL * SCALE));
   const SAT_LABEL = Math.max(18, Math.round(BASE_SAT_LABEL * SCALE));
-  const RADIUS = Math.round(BASE_RADIUS * SCALE);
+
+  // Orbit can be elliptical in landscape: wider horizontally so satellites spread
+  // across the canvas instead of clustering in a centred square.
+  const CONTAINER_W = isLandscape ? Math.min(widthFit, 1700) : Math.round(BASE_CONTAINER * SCALE);
+  const CONTAINER_H = Math.round(BASE_CONTAINER * SCALE);
+  const RADIUS_Y = Math.round(BASE_RADIUS * SCALE);
+  const RADIUS_X = isLandscape
+    ? Math.round((CONTAINER_W / 2) - SAT_ICON / 2 - 60)
+    : RADIUS_Y;
 
   const lookup = TablerIcons as unknown as Record<string, TablerIconComponent>;
-  const cx = CONTAINER / 2;
-  const cy = CONTAINER / 2;
+  const cx = CONTAINER_W / 2;
+  const cy = CONTAINER_H / 2;
   const cadence = track.revealCadenceFrames;
   const CenterIcon = lookup[track.center.iconName];
 
@@ -57,13 +68,13 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
         top: `${track.position.y * 100}%`,
         transform: `translate(-50%, -50%) ${containerStyle.transform}`,
         opacity: containerStyle.opacity,
-        width: CONTAINER,
-        height: CONTAINER,
+        width: CONTAINER_W,
+        height: CONTAINER_H,
       }}
     >
       <svg
-        width={CONTAINER}
-        height={CONTAINER}
+        width={CONTAINER_W}
+        height={CONTAINER_H}
         style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
       >
         {track.satellites.map((_, i) => {
@@ -72,14 +83,19 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
           const dy = Math.sin(angle);
           const CENTER_LABEL_CLEARANCE = Math.round(92 * SCALE);
           const SAT_LABEL_CLEARANCE = Math.round(72 * SCALE);
-          const innerR =
-            dy > 0.15 ? CENTER_ICON / 2 + CENTER_LABEL_CLEARANCE : CENTER_ICON / 2 + 18;
-          const outerR =
-            dy < -0.15 ? SAT_ICON / 2 + SAT_LABEL_CLEARANCE : SAT_ICON / 2 + 18;
-          const sx = cx + dx * innerR;
-          const sy = cy + dy * innerR;
-          const ix = cx + dx * (RADIUS - outerR);
-          const iy = cy + dy * (RADIUS - outerR);
+          const ex = cx + dx * RADIUS_X;
+          const ey = cy + dy * RADIUS_Y;
+          // Inner offset from centre (clear the centre icon, plus its label if going down)
+          const innerVertical = dy > 0.15 ? CENTER_ICON / 2 + CENTER_LABEL_CLEARANCE : CENTER_ICON / 2 + 18;
+          // Outer offset at the satellite (clear its icon, plus its label if line approaches from above)
+          const outerVertical = dy < -0.15 ? SAT_ICON / 2 + SAT_LABEL_CLEARANCE : SAT_ICON / 2 + 18;
+          // For nearly-horizontal lines, use icon-only clearance on both ends
+          const innerOffset = Math.abs(dy) < 0.15 ? CENTER_ICON / 2 + 18 : innerVertical;
+          const outerOffset = Math.abs(dy) < 0.15 ? SAT_ICON / 2 + 18 : outerVertical;
+          const sx = cx + dx * innerOffset;
+          const sy = cy + dy * innerOffset;
+          const ix = ex - dx * outerOffset;
+          const iy = ey - dy * outerOffset;
 
           const lineStartFrame = track.startFrame + cadence * (i + 0.4);
           const lp = phaseProgress(frame, lineStartFrame, LINE_DRAW_FRAMES, "easeOut");
@@ -151,8 +167,8 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
 
       {track.satellites.map((sat, i) => {
         const angle = satelliteAngle(i, track.satellites.length);
-        const ex = cx + Math.cos(angle) * RADIUS;
-        const ey = cy + Math.sin(angle) * RADIUS;
+        const ex = cx + Math.cos(angle) * RADIUS_X;
+        const ey = cy + Math.sin(angle) * RADIUS_Y;
         const nodeStartFrame = track.startFrame + cadence * (i + 1);
         const p = phaseProgress(frame, nodeStartFrame, NODE_REVEAL_FRAMES, "easeOut");
         if (p === 0) return null;
