@@ -30,26 +30,30 @@ export type Palette = {
  */
 export const themes: Record<ThemeName, Palette> = {
   light: {
-    background: "#FAFAF7",
+    background: "#F0EDF8",
     ink: "#0B0B0D",
-    inkMuted: "#3A3A3A",
-    inkDim: "#6B6B6B",
-    accent: "#DC2626",
-    accentDeep: "#B91C1C",
-    hairline: "#E5E5E0",
-    bloom: "none",
-    sunset: "linear-gradient(135deg, #0B0B0D 0%, #0B0B0D 100%)",
+    inkMuted: "#3A3A4A",
+    inkDim: "#6B6B7E",
+    accent: "#7A5BDC",
+    accentDeep: "#5A3DB8",
+    hairline: "#CCCAE0",
+    bloom:
+      "radial-gradient(ellipse 80% 60% at 50% 28%, rgba(122,91,220,0.22) 0%, rgba(177,83,211,0.08) 38%, rgba(122,91,220,0.04) 65%, transparent 90%)",
+    sunset:
+      "linear-gradient(135deg, #DE7BAD 0%, #B153D3 28%, #A485F5 58%, #7A5BDC 82%, #5A3DB8 100%)",
   },
   dark: {
     background: "#0B0B0D",
-    ink: "#FAFAF7",
-    inkMuted: "#C7C7C7",
-    inkDim: "#8A8A8A",
-    accent: "#EF4444",
-    accentDeep: "#DC2626",
-    hairline: "#2A2A2A",
-    bloom: "none",
-    sunset: "linear-gradient(135deg, #FAFAF7 0%, #FAFAF7 100%)",
+    ink: "#FFFFFF",
+    inkMuted: "#C7C7CE",
+    inkDim: "#8A8A92",
+    accent: "#9B74F2",
+    accentDeep: "#7A5BDC",
+    hairline: "#26262A",
+    bloom:
+      "radial-gradient(ellipse 80% 60% at 50% 28%, rgba(164,133,245,0.26) 0%, rgba(177,83,211,0.10) 40%, transparent 82%)",
+    sunset:
+      "linear-gradient(135deg, #DE7BAD 0%, #C9ADFE 32%, #A485F5 65%, #7A5BDC 100%)",
   },
 };
 
@@ -75,12 +79,17 @@ export const ACCENT_GRADIENT_ID = "vok-accent-gradient";
  */
 export const sunsetStops: Record<ThemeName, Array<{ offset: number; color: string }>> = {
   light: [
-    { offset: 0, color: "#0B0B0D" },
-    { offset: 1, color: "#0B0B0D" },
+    { offset: 0, color: "#DE7BAD" },
+    { offset: 0.28, color: "#B153D3" },
+    { offset: 0.58, color: "#A485F5" },
+    { offset: 0.82, color: "#7A5BDC" },
+    { offset: 1, color: "#5A3DB8" },
   ],
   dark: [
-    { offset: 0, color: "#FAFAF7" },
-    { offset: 1, color: "#FAFAF7" },
+    { offset: 0, color: "#DE7BAD" },
+    { offset: 0.32, color: "#C9ADFE" },
+    { offset: 0.65, color: "#A485F5" },
+    { offset: 1, color: "#7A5BDC" },
   ],
 };
 
