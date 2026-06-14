@@ -105,8 +105,12 @@ OG_PROMPT = """A social-card hero image for a developer tool called VideoOverlay
 mark - a play-triangle nested inside stacked overlay rectangles - filled with a
 sunset gradient running from pink (#DE7BAD) through orchid (#B153D3) and lavender
 (#A485F5) to deep lavender (#5A3DB8). Right side: the wordmark 'VideoOverlayKit'
-in clean modern sans-serif (think Inter Bold), in deep charcoal #0B0B0D, with a
-short subtitle 'b-roll for technical videos' below it in lighter grey #6B6B7E.
+in clean modern sans-serif (think Inter Bold), in deep charcoal #0B0B0D. Below
+the wordmark, on two lines, in lighter grey #6B6B7E:
+  'b-roll for technical videos'
+  'free · MCP · runs on your machine'
+The 'free' part of the second line should be slightly bolder / weighted so the
+eye lands on it.
 
 Background: a soft off-white #F0EDF8 with a very subtle radial bloom of lavender
 in the upper area. Pure flat vector design, no photography, no 3D. Premium

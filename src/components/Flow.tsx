@@ -32,18 +32,18 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
       : track.direction;
 
   const isLandscape = config.width > config.height;
-  const ICON_SIZE = isLandscape ? 260 : 200;
-  const ICON_BOX = isLandscape ? 340 : 260;
-  const LABEL_FONT = isLandscape ? 68 : 56;
-  const LABEL_HEIGHT = isLandscape ? 92 : 76;
-  const LABEL_GAP_FROM_ICON = 12;
-  const ARROW_STROKE = 7;
-  const ARROW_HEAD = 30;
+  const ICON_SIZE = isLandscape ? 260 : 180;
+  const ICON_BOX = isLandscape ? 340 : 240;
+  const LABEL_FONT = isLandscape ? 68 : 52;
+  const LABEL_HEIGHT = isLandscape ? 92 : 68;
+  const LABEL_GAP_FROM_ICON = isLandscape ? 12 : 10;
+  const ARROW_STROKE = isLandscape ? 7 : 6;
+  const ARROW_HEAD = isLandscape ? 30 : 26;
 
   if (direction === "vertical") {
-    const CONTAINER_W = 880;
-    const SLOT_H = 460;
-    const ARROW_MARGIN = 18;
+    const CONTAINER_W = 840;
+    const SLOT_H = isLandscape ? 460 : 400;
+    const ARROW_MARGIN = isLandscape ? 18 : 12;
     const CONTAINER_H = SLOT_H * n;
     const cx = CONTAINER_W / 2;
 

@@ -34,9 +34,9 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
       : track.direction;
 
   const isLandscape = config.width > config.height;
-  const ICON_SIZE = isLandscape ? 260 : 200;
-  const LABEL_FONT = isLandscape ? 80 : 64;
-  const SUBLABEL_FONT = isLandscape ? 44 : 38;
+  const ICON_SIZE = isLandscape ? 260 : 220;
+  const LABEL_FONT = isLandscape ? 80 : 68;
+  const SUBLABEL_FONT = isLandscape ? 44 : 40;
 
   const renderSide = (
     side: ComparisonTrack["left"],
@@ -108,8 +108,8 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
 
   if (direction === "vertical") {
     const CONTAINER_W = 940;
-    const SIDE_H = 520;
-    const DIVIDER_H = 180;
+    const SIDE_H = 460;
+    const DIVIDER_H = 160;
     const CONTAINER_H = SIDE_H * 2 + DIVIDER_H;
 
     return (

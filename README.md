@@ -7,6 +7,10 @@
 <p align="center"><strong>Make b-roll for your videos. Tell an agent what you want. Get an MP4 back.</strong></p>
 
 <p align="center">
+  <em>Free · zero per-render cost · MIT · MCP-driven · runs on your machine</em>
+</p>
+
+<p align="center">
   <img src="docs/assets/og.png" alt="VideoOverlayKit cover" width="100%" />
 </p>
 
@@ -527,6 +531,10 @@ Zero per render. Local CPU and disk only. Free for individual use and small team
 VideoOverlayKit is free and MIT-licensed. If the kit saves you time or render budget, the easiest way to give back is to [sponsor the project on GitHub](https://github.com/sponsors/alichherawalla). Sponsorships fund new components, better defaults, and bug fixes that ship faster than I can do them in evenings.
 
 Wednesday Solutions ([wednesday.is](https://wednesday.is)) is the studio behind the design system. If you want a custom build, a theme that matches your brand, or production help shipping AI features for a regulated industry, that's the way to reach the team.
+
+---
+
+<p align="center">Made with ♥ by <a href="https://wednesday.is">Wednesday Solutions</a></p>
 
 ## License
 

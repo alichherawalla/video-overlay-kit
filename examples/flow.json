@@ -12,23 +12,51 @@
       "text": "Hit. Routed. Contained.",
       "startFrame": 0,
       "endFrame": 150,
-      "enter": { "kind": "slide-down", "durationFrames": 10, "ease": "easeOut" },
-      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+      "enter": {
+        "kind": "slide-down",
+        "durationFrames": 10,
+        "ease": "easeOut"
+      },
+      "exit": {
+        "kind": "fade",
+        "durationFrames": 10,
+        "ease": "easeOut"
+      }
     },
     {
       "kind": "flow",
       "id": "incident-flow",
-      "position": { "x": 0.5, "y": 0.45 },
+      "position": {
+        "x": 0.5,
+        "y": 0.55
+      },
       "revealCadenceFrames": 35,
       "startFrame": 20,
       "endFrame": 150,
       "nodes": [
-        { "iconName": "IconAlertOctagon", "label": "Incident" },
-        { "iconName": "IconBook2", "label": "Runbook" },
-        { "iconName": "IconCircleCheck", "label": "Contained" }
+        {
+          "iconName": "IconAlertOctagon",
+          "label": "Incident"
+        },
+        {
+          "iconName": "IconBook2",
+          "label": "Runbook"
+        },
+        {
+          "iconName": "IconCircleCheck",
+          "label": "Contained"
+        }
       ],
-      "enter": { "kind": "none", "durationFrames": 0, "ease": "easeOut" },
-      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+      "enter": {
+        "kind": "none",
+        "durationFrames": 0,
+        "ease": "easeOut"
+      },
+      "exit": {
+        "kind": "fade",
+        "durationFrames": 10,
+        "ease": "easeOut"
+      }
     }
   ]
 }
