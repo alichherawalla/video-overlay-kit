@@ -18,7 +18,7 @@
     {
       "kind": "hub",
       "id": "gateway-hub",
-      "position": { "x": 0.5, "y": 0.45 },
+      "position": { "x": 0.5, "y": 0.505 },
       "startFrame": 20,
       "endFrame": 150,
       "center": { "iconName": "IconShield", "label": "Gateway" },
