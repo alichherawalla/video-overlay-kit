@@ -10,13 +10,15 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ICON_SIZE = 132;
-const ICON_BOX = 180;
-const LABEL_FONT = 44;
-const ARROW_STROKE = 5;
+const ICON_SIZE = 200;
+const ICON_BOX = 260;
+const LABEL_FONT = 56;
+const LABEL_HEIGHT = 76;
+const LABEL_GAP_FROM_ICON = 10;
+const ARROW_STROKE = 6;
+const ARROW_HEAD = 26;
 const NODE_REVEAL_FRAMES = 10;
 const ARROW_DRAW_FRAMES = 14;
-const ARROW_HEAD = 22;
 
 export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   const frame = useCurrentFrame();
@@ -37,12 +39,11 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
       : track.direction;
 
   if (direction === "vertical") {
-    const CONTAINER_W = 800;
-    const SLOT_H = 260;
-    const NODE_LABEL_GAP = 16;
-    const LABEL_HEIGHT = 58;
+    const CONTAINER_W = 880;
+    const SLOT_H = 460;
+    const ARROW_MARGIN = 18;
     const CONTAINER_H = SLOT_H * n;
-    const arrowGap = ICON_BOX / 2 + 14;
+    const cx = CONTAINER_W / 2;
 
     return (
       <div
@@ -66,9 +67,10 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
             const p = phaseProgress(frame, arrowStartFrame, ARROW_DRAW_FRAMES, "easeOut");
             if (p === 0) return null;
 
-            const cx = CONTAINER_W / 2;
-            const y1 = SLOT_H * (i + 0.5) + arrowGap;
-            const y2 = SLOT_H * (i + 1.5) - arrowGap - ARROW_HEAD;
+            const slotCenterI = SLOT_H * (i + 0.5);
+            const slotCenterI1 = SLOT_H * (i + 1.5);
+            const y1 = slotCenterI + ICON_BOX / 2 + LABEL_GAP_FROM_ICON + LABEL_HEIGHT + ARROW_MARGIN;
+            const y2 = slotCenterI1 - ICON_BOX / 2 - ARROW_MARGIN - ARROW_HEAD;
             const totalLen = y2 - y1;
             const drawLen = totalLen * p;
 
@@ -85,7 +87,7 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
                 />
                 {p >= 0.95 ? (
                   <polygon
-                    points={`${cx},${y2 + ARROW_HEAD} ${cx - ARROW_HEAD * 0.6},${y2} ${cx + ARROW_HEAD * 0.6},${y2}`}
+                    points={`${cx},${y2 + ARROW_HEAD} ${cx - ARROW_HEAD * 0.55},${y2} ${cx + ARROW_HEAD * 0.55},${y2}`}
                     fill={palette.accent}
                   />
                 ) : null}
@@ -99,27 +101,17 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
           const nodeFrame = track.startFrame + cadence * i;
           const p = phaseProgress(frame, nodeFrame, NODE_REVEAL_FRAMES, "easeOut");
           const scale = 0.85 + 0.15 * p;
-          const cy = SLOT_H * (i + 0.5);
+          const slotCenter = SLOT_H * (i + 0.5);
+          const iconTop = slotCenter - ICON_BOX / 2;
+          const labelTop = slotCenter + ICON_BOX / 2 + LABEL_GAP_FROM_ICON;
 
           return (
-            <div
-              key={i}
-              style={{
-                position: "absolute",
-                left: (CONTAINER_W - ICON_BOX) / 2,
-                top: cy - ICON_BOX / 2,
-                width: ICON_BOX,
-                opacity: p,
-                transform: `scale(${scale})`,
-                transformOrigin: "center center",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: NODE_LABEL_GAP,
-              }}
-            >
+            <div key={i} style={{ opacity: p, transform: `scale(${scale})`, transformOrigin: `${cx}px ${slotCenter}px` }}>
               <div
                 style={{
+                  position: "absolute",
+                  left: cx - ICON_BOX / 2,
+                  top: iconTop,
                   width: ICON_BOX,
                   height: ICON_BOX,
                   display: "flex",
@@ -138,16 +130,16 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
               <div
                 style={{
                   position: "absolute",
-                  top: ICON_BOX + 6,
+                  left: 0,
+                  top: labelTop,
                   width: CONTAINER_W,
-                  left: -(CONTAINER_W - ICON_BOX) / 2,
+                  height: LABEL_HEIGHT,
                   fontFamily: FONT_FAMILY,
                   fontSize: LABEL_FONT,
                   fontWeight: 700,
                   textAlign: "center",
                   lineHeight: 1.15,
-                  height: LABEL_HEIGHT,
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "-0.015em",
                   ...gradientTextStyle(palette.sunset),
                 }}
               >
