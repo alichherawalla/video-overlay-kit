@@ -30,10 +30,10 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
   const containerStyle = trackStyle(frame, track.startFrame, track.endFrame, track.enter, track.exit);
   if (!containerStyle.visible) return null;
 
-  // Fit the hub into the canvas with breathing room above (title) and below (margin).
+  // Fit the hub into the canvas with breathing room for title and IG caption band.
   const isLandscape = config.width > config.height;
-  const titleReserve = isLandscape ? 240 : 420;
-  const bottomMargin = isLandscape ? 100 : 120;
+  const titleReserve = isLandscape ? 240 : 500;  // portrait reserves space for a 2-line title
+  const bottomMargin = isLandscape ? 100 : 570;  // portrait reserves space for IG/TikTok caption UI (~25%)
   const heightFit = config.height - titleReserve - bottomMargin;
   const widthFit = Math.round(config.width * 0.92);
 
