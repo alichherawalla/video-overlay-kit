@@ -6,6 +6,49 @@ You write a scene spec (icons + text + timings); the kit renders an MP4. No per-
 
 ---
 
+## What you get
+
+Four bundled examples, one per track kind. Each one is a real 5–6 second vertical overlay (1080×1920) rendered with the Wednesday Solutions light theme. Click any preview to play it.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <video src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.mp4" controls width="100%"></video>
+      <br/>
+      <b><code>list-reveal</code></b> · 5s · <a href="examples/list-reveal.json">spec</a> · <a href="examples/list-reveal.mp4">mp4</a>
+      <br/>
+      <sub>Title + a 3-row list with icons. The most common shape.</sub>
+    </td>
+    <td align="center" width="50%">
+      <video src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow.mp4" controls width="100%"></video>
+      <br/>
+      <b><code>flow</code></b> · 5s · <a href="examples/flow.json">spec</a> · <a href="examples/flow.mp4">mp4</a>
+      <br/>
+      <sub>Horizontal A → B → C with arrows drawing on between nodes.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <video src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison.mp4" controls width="100%"></video>
+      <br/>
+      <b><code>comparison</code></b> · 6s · <a href="examples/comparison.json">spec</a> · <a href="examples/comparison.mp4">mp4</a>
+      <br/>
+      <sub>Two icons side-by-side with a configurable divider in the middle.</sub>
+    </td>
+    <td align="center" width="50%">
+      <video src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub.mp4" controls width="100%"></video>
+      <br/>
+      <b><code>hub</code></b> · 5s · <a href="examples/hub.json">spec</a> · <a href="examples/hub.mp4">mp4</a>
+      <br/>
+      <sub>Center concept with 2–4 satellites; lines draw in as each satellite appears.</sub>
+    </td>
+  </tr>
+</table>
+
+If the inline players don't render in your markdown viewer, the `.mp4` links above open the same files directly. To produce any of these yourself: `npm run render examples/<name>.json`.
+
+---
+
 ## The fastest path: Claude Code via MCP
 
 The kit is built to be driven from [Claude Code](https://claude.com/claude-code). You don't hand-edit JSON — you describe the overlay you want and Claude authors the spec, validates it, and renders the MP4.
@@ -80,6 +123,8 @@ npm run render examples/list-reveal.json
 
 ## Table of contents
 
+- [What you get](#what-you-get) — video previews of every component
+- [The fastest path: Claude Code via MCP](#the-fastest-path-claude-code-via-mcp)
 - [Why this exists](#why-this-exists)
 - [The design rule](#the-design-rule-that-makes-this-work)
 - [Scene spec (top-level)](#scene-spec-top-level)
