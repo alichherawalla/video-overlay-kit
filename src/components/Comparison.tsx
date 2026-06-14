@@ -178,9 +178,9 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
     );
   }
 
-  const CONTAINER_W = 1000;
-  const SIDE_H = 380;
-  const DIVIDER_W = 140;
+  const CONTAINER_W = Math.min(1600, Math.round(config.width * 0.86));
+  const SIDE_H = 420;
+  const DIVIDER_W = 180;
   const sideWidth = (CONTAINER_W - DIVIDER_W) / 2;
 
   return (
@@ -210,17 +210,17 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
           transform: `scale(${0.85 + 0.15 * dividerP})`,
         }}
       >
-        <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ position: "relative", width: DIVIDER_W, height: SIDE_H, display: "flex", alignItems: "center", justifyContent: "center" }}>
           {track.divider.showLine ? (
             <div
               style={{
                 position: "absolute",
                 width: 5,
-                height: 320,
+                height: Math.round(SIDE_H * 0.85),
                 background: palette.accent,
-                top: -160,
+                top: "50%",
                 left: "50%",
-                transform: "translateX(-50%)",
+                transform: "translate(-50%, -50%)",
                 borderRadius: 2.5,
               }}
             />

@@ -152,7 +152,7 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
     );
   }
 
-  const CONTAINER_W_H = 1000;
+  const CONTAINER_W_H = Math.min(1700, Math.round(config.width * 0.88));
   const slotWidth = CONTAINER_W_H / n;
   const arrowGap = ICON_BOX / 2 + 16;
 
