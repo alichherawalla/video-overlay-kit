@@ -41,7 +41,7 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   const ARROW_HEAD = isLandscape ? 30 : 26;
 
   if (direction === "vertical") {
-    const CONTAINER_W = 840;
+    const CONTAINER_W = 780;
     const SLOT_H = isLandscape ? 460 : 400;
     const ARROW_MARGIN = isLandscape ? 18 : 12;
     const CONTAINER_H = SLOT_H * n;

@@ -112,7 +112,7 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
         top: `${track.position.y * 100}%`,
         transform: `translate(-50%, -50%) ${containerStyle.transform}`,
         opacity: containerStyle.opacity,
-        width: 1000,
+        width: 880,
         height: totalHeight,
         display: "flex",
         flexDirection: "column",

@@ -107,7 +107,7 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
   };
 
   if (direction === "vertical") {
-    const CONTAINER_W = 940;
+    const CONTAINER_W = 860;
     const SIDE_H = 460;
     const DIVIDER_H = 160;
     const CONTAINER_H = SIDE_H * 2 + DIVIDER_H;
