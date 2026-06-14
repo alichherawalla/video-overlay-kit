@@ -2,7 +2,7 @@ import * as TablerIcons from "@tabler/icons-react";
 import type { HubTrack } from "../scene/types";
 import { useCurrentFrame } from "remotion";
 import { trackStyle, phaseProgress } from "../motion/primitives";
-import { usePalette, FONT_FAMILY } from "../scene/theme";
+import { usePalette, FONT_FAMILY, accentStrokeUrl, gradientTextStyle } from "../scene/theme";
 
 type TablerIconComponent = React.ComponentType<{
   size?: number | string;
@@ -10,11 +10,12 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const CONTAINER = 900;
-const CENTER_ICON = 140;
-const SAT_ICON = 88;
-const SAT_LABEL = 26;
-const RADIUS = 290;
+const CONTAINER = 960;
+const CENTER_ICON = 180;
+const SAT_ICON = 116;
+const CENTER_LABEL = 40;
+const SAT_LABEL = 32;
+const RADIUS = 330;
 const LINE_DRAW_FRAMES = 12;
 const NODE_REVEAL_FRAMES = 10;
 
@@ -57,12 +58,12 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
           const angle = satelliteAngle(i, track.satellites.length);
           const dx = Math.cos(angle);
           const dy = Math.sin(angle);
-          const CENTER_LABEL_CLEARANCE = 64;
-          const SAT_LABEL_CLEARANCE = 50;
+          const CENTER_LABEL_CLEARANCE = 78;
+          const SAT_LABEL_CLEARANCE = 60;
           const innerR =
-            dy > 0.15 ? CENTER_ICON / 2 + CENTER_LABEL_CLEARANCE : CENTER_ICON / 2 + 16;
+            dy > 0.15 ? CENTER_ICON / 2 + CENTER_LABEL_CLEARANCE : CENTER_ICON / 2 + 18;
           const outerR =
-            dy < -0.15 ? SAT_ICON / 2 + SAT_LABEL_CLEARANCE : SAT_ICON / 2 + 16;
+            dy < -0.15 ? SAT_ICON / 2 + SAT_LABEL_CLEARANCE : SAT_ICON / 2 + 18;
           const sx = cx + dx * innerR;
           const sy = cy + dy * innerR;
           const ix = cx + dx * (RADIUS - outerR);
@@ -82,7 +83,7 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
               x2={sx + ldx * lp}
               y2={sy + ldy * lp}
               stroke={palette.accent}
-              strokeWidth={3}
+              strokeWidth={4}
               strokeLinecap="round"
             />
           );
@@ -98,7 +99,7 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 10,
+          gap: 12,
           opacity: centerP,
           transform: `scale(${0.85 + 0.15 * centerP})`,
           transformOrigin: "center center",
@@ -116,7 +117,7 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
           }}
         >
           {CenterIcon ? (
-            <CenterIcon size={CENTER_ICON - 28} color={palette.ink} stroke={2.2} />
+            <CenterIcon size={CENTER_ICON - 32} color={accentStrokeUrl} stroke={2.4} />
           ) : (
             <div style={{ color: "red", fontFamily: "monospace", fontSize: 14 }}>missing: {track.center.iconName}</div>
           )}
@@ -124,11 +125,12 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
         <div
           style={{
             fontFamily: FONT_FAMILY,
-            fontSize: 30,
+            fontSize: CENTER_LABEL,
             fontWeight: 700,
-            color: palette.ink,
             textAlign: "center",
             whiteSpace: "nowrap",
+            letterSpacing: "-0.015em",
+            ...gradientTextStyle(palette.sunset),
           }}
         >
           {track.center.label}
@@ -154,7 +156,7 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: 8,
+              gap: 10,
               opacity: p,
               transform: `scale(${0.85 + 0.15 * p})`,
               transformOrigin: "center center",
@@ -172,7 +174,7 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
               }}
             >
               {Icon ? (
-                <Icon size={SAT_ICON - 20} color={palette.ink} stroke={2} />
+                <Icon size={SAT_ICON - 24} color={accentStrokeUrl} stroke={2.3} />
               ) : (
                 <div style={{ color: "red", fontFamily: "monospace", fontSize: 12 }}>missing: {sat.iconName}</div>
               )}
@@ -181,10 +183,11 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
               style={{
                 fontFamily: FONT_FAMILY,
                 fontSize: SAT_LABEL,
-                fontWeight: 600,
-                color: palette.ink,
+                fontWeight: 700,
                 textAlign: "center",
                 whiteSpace: "nowrap",
+                letterSpacing: "-0.01em",
+                ...gradientTextStyle(palette.sunset),
               }}
             >
               {sat.label}

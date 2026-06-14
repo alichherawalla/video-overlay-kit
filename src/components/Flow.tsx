@@ -2,7 +2,7 @@ import * as TablerIcons from "@tabler/icons-react";
 import type { FlowTrack } from "../scene/types";
 import { useCurrentFrame, useVideoConfig } from "remotion";
 import { trackStyle, phaseProgress } from "../motion/primitives";
-import { usePalette, FONT_FAMILY } from "../scene/theme";
+import { usePalette, FONT_FAMILY, accentStrokeUrl, gradientTextStyle } from "../scene/theme";
 
 type TablerIconComponent = React.ComponentType<{
   size?: number | string;
@@ -10,14 +10,13 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ICON_SIZE = 96;
-const ICON_BOX = 140;
-const LABEL_FONT = 32;
-const ARROW_STROKE = 4;
+const ICON_SIZE = 132;
+const ICON_BOX = 180;
+const LABEL_FONT = 44;
+const ARROW_STROKE = 5;
 const NODE_REVEAL_FRAMES = 10;
 const ARROW_DRAW_FRAMES = 14;
-
-const ARROW_HEAD = 16;
+const ARROW_HEAD = 22;
 
 export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   const frame = useCurrentFrame();
@@ -38,12 +37,12 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
       : track.direction;
 
   if (direction === "vertical") {
-    const CONTAINER_W = 720;
-    const SLOT_H = 200;
-    const NODE_LABEL_GAP = 14;
-    const LABEL_HEIGHT = 44;
+    const CONTAINER_W = 800;
+    const SLOT_H = 260;
+    const NODE_LABEL_GAP = 16;
+    const LABEL_HEIGHT = 58;
     const CONTAINER_H = SLOT_H * n;
-    const arrowGap = ICON_BOX / 2 + 12;
+    const arrowGap = ICON_BOX / 2 + 14;
 
     return (
       <div
@@ -129,7 +128,7 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
                 }}
               >
                 {Icon ? (
-                  <Icon size={ICON_SIZE} color={palette.ink} stroke={2} />
+                  <Icon size={ICON_SIZE} color={accentStrokeUrl} stroke={2.4} />
                 ) : (
                   <div style={{ color: "red", fontFamily: "monospace", fontSize: 14, textAlign: "center" }}>
                     missing icon: {node.iconName}
@@ -144,11 +143,12 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
                   left: -(CONTAINER_W - ICON_BOX) / 2,
                   fontFamily: FONT_FAMILY,
                   fontSize: LABEL_FONT,
-                  fontWeight: 600,
-                  color: palette.ink,
+                  fontWeight: 700,
                   textAlign: "center",
                   lineHeight: 1.15,
                   height: LABEL_HEIGHT,
+                  letterSpacing: "-0.01em",
+                  ...gradientTextStyle(palette.sunset),
                 }}
               >
                 {node.label}
@@ -248,7 +248,7 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
               }}
             >
               {Icon ? (
-                <Icon size={ICON_SIZE} color={palette.ink} stroke={2} />
+                <Icon size={ICON_SIZE} color={accentStrokeUrl} stroke={2.4} />
               ) : (
                 <div style={{ color: "red", fontFamily: "monospace", fontSize: 14, textAlign: "center" }}>
                   missing icon: {node.iconName}
@@ -259,11 +259,12 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
               style={{
                 fontFamily: FONT_FAMILY,
                 fontSize: LABEL_FONT,
-                fontWeight: 600,
-                color: palette.ink,
+                fontWeight: 700,
                 textAlign: "center",
                 lineHeight: 1.15,
-                maxWidth: ICON_BOX + 40,
+                maxWidth: ICON_BOX + 60,
+                letterSpacing: "-0.01em",
+                ...gradientTextStyle(palette.sunset),
               }}
             >
               {node.label}

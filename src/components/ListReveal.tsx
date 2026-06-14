@@ -2,7 +2,7 @@ import * as TablerIcons from "@tabler/icons-react";
 import type { ListRevealTrack } from "../scene/types";
 import { useCurrentFrame } from "remotion";
 import { trackStyle, phaseProgress } from "../motion/primitives";
-import { usePalette, FONT_FAMILY } from "../scene/theme";
+import { usePalette, FONT_FAMILY, accentStrokeUrl, gradientTextStyle } from "../scene/theme";
 
 type TablerIconComponent = React.ComponentType<{
   size?: number | string;
@@ -10,10 +10,10 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ROW_HEIGHT = 220;
-const ROW_GAP = 52;
-const ICON_SIZE = 132;
-const TEXT_SIZE = 64;
+const ROW_HEIGHT = 250;
+const ROW_GAP = 60;
+const ICON_SIZE = 160;
+const TEXT_SIZE = 76;
 const REVEAL_DURATION = 10;
 
 export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
@@ -60,17 +60,17 @@ export const ListReveal: React.FC<{ track: ListRevealTrack }> = ({ track }) => {
           >
             {Icon ? (
               <div style={{ display: "flex", flexShrink: 0 }}>
-                <Icon size={ICON_SIZE} color={palette.accent} stroke={2.2} />
+                <Icon size={ICON_SIZE} color={accentStrokeUrl} stroke={2.4} />
               </div>
             ) : null}
             <div
               style={{
                 fontFamily: FONT_FAMILY,
                 fontSize: TEXT_SIZE,
-                fontWeight: 600,
-                color: palette.accentDeep,
-                lineHeight: 1.18,
-                letterSpacing: "-0.01em",
+                fontWeight: 700,
+                lineHeight: 1.16,
+                letterSpacing: "-0.015em",
+                ...gradientTextStyle(palette.sunset),
               }}
             >
               {row.text}

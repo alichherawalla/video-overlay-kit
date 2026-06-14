@@ -41,12 +41,12 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
         style={{
           padding: "0 60px",
           maxWidth: 960,
-          fontSize: 80,
+          fontSize: 92,
           fontWeight: 800,
           fontFamily: FONT_FAMILY,
           textAlign: "center",
-          lineHeight: 1.12,
-          letterSpacing: "-0.02em",
+          lineHeight: 1.08,
+          letterSpacing: "-0.025em",
           ...textStyle,
         }}
       >
@@ -54,11 +54,11 @@ export const TitleOverlay: React.FC<{ track: TitleOverlayTrack }> = ({ track }) 
       </div>
       <div
         style={{
-          width: 200,
-          height: 4,
+          width: 240,
+          height: 5,
           background: palette.accent,
-          borderRadius: 2,
-          opacity: 0.85,
+          borderRadius: 2.5,
+          opacity: 0.9,
         }}
       />
     </div>

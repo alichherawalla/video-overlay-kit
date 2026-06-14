@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import type React from "react";
 
 export type ThemeName = "light" | "dark";
 
@@ -62,6 +63,45 @@ export const themes: Record<ThemeName, Palette> = {
  * to the system sans-serif (San Francisco on macOS, etc).
  */
 export const FONT_FAMILY = '"Aeonik", ui-sans-serif, system-ui, -apple-system, sans-serif';
+
+/**
+ * Stable id used in url(#...) references on SVG icons so they paint with the
+ * sunset gradient. The gradient itself is rendered once in Scene.tsx as a
+ * hidden <svg><defs>.
+ */
+export const ACCENT_GRADIENT_ID = "vok-accent-gradient";
+
+/**
+ * The same sunset gradient defined as discrete stops, so it can be rendered
+ * as both a CSS linear-gradient (for background-clip text) and an SVG
+ * <linearGradient> (for icon strokes). Order matches the visual direction
+ * (top-left to bottom-right).
+ */
+export const sunsetStops: Record<ThemeName, Array<{ offset: number; color: string }>> = {
+  light: [
+    { offset: 0, color: "#DE7BAD" },
+    { offset: 0.28, color: "#B153D3" },
+    { offset: 0.58, color: "#A485F5" },
+    { offset: 0.82, color: "#7A5BDC" },
+    { offset: 1, color: "#5A3DB8" },
+  ],
+  dark: [
+    { offset: 0, color: "#DE7BAD" },
+    { offset: 0.32, color: "#C9ADFE" },
+    { offset: 0.65, color: "#A485F5" },
+    { offset: 1, color: "#7A5BDC" },
+  ],
+};
+
+export const gradientTextStyle = (gradientCss: string): React.CSSProperties => ({
+  backgroundImage: gradientCss,
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  color: "transparent",
+});
+
+export const accentStrokeUrl = `url(#${ACCENT_GRADIENT_ID})`;
 
 export const PaletteContext = createContext<Palette>(themes.light);
 export const usePalette = () => useContext(PaletteContext);

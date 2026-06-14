@@ -1,6 +1,6 @@
 import { Img, staticFile } from "remotion";
 import type { SceneSpec } from "./types";
-import { themes, PaletteContext, type Palette } from "./theme";
+import { themes, PaletteContext, type Palette, ACCENT_GRADIENT_ID, sunsetStops } from "./theme";
 import { IconRef } from "../components/IconRef";
 import { TextLayer } from "../components/TextLayer";
 import { TitleOverlay } from "../components/TitleOverlay";
@@ -31,6 +31,7 @@ export const Scene: React.FC<{ spec: SceneSpec }> = ({ spec }) => {
   const background = spec.background ?? palette.background;
   const bgImage = spec.backgroundImage;
   const showBloom = spec.bloom && !bgImage;
+  const stops = sunsetStops[spec.theme];
 
   return (
     <PaletteContext.Provider value={palette}>
@@ -41,6 +42,15 @@ export const Scene: React.FC<{ spec: SceneSpec }> = ({ spec }) => {
           background,
         }}
       >
+        <svg width="0" height="0" style={{ position: "absolute", width: 0, height: 0 }} aria-hidden="true">
+          <defs>
+            <linearGradient id={ACCENT_GRADIENT_ID} x1="0%" y1="0%" x2="100%" y2="100%">
+              {stops.map((s, i) => (
+                <stop key={i} offset={`${s.offset * 100}%`} stopColor={s.color} />
+              ))}
+            </linearGradient>
+          </defs>
+        </svg>
         {showBloom ? (
           <div
             style={{

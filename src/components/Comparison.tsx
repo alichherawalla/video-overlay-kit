@@ -2,7 +2,7 @@ import * as TablerIcons from "@tabler/icons-react";
 import type { ComparisonTrack } from "../scene/types";
 import { useCurrentFrame, useVideoConfig } from "remotion";
 import { trackStyle, phaseProgress } from "../motion/primitives";
-import { usePalette, FONT_FAMILY } from "../scene/theme";
+import { usePalette, FONT_FAMILY, accentStrokeUrl, gradientTextStyle } from "../scene/theme";
 
 type TablerIconComponent = React.ComponentType<{
   size?: number | string;
@@ -10,9 +10,9 @@ type TablerIconComponent = React.ComponentType<{
   stroke?: number;
 }>;
 
-const ICON_SIZE = 140;
-const LABEL_FONT = 48;
-const SUBLABEL_FONT = 30;
+const ICON_SIZE = 168;
+const LABEL_FONT = 64;
+const SUBLABEL_FONT = 36;
 const REVEAL_FRAMES = 12;
 
 export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
@@ -51,22 +51,22 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "flex-start",
-          gap: 20,
+          gap: 22,
           opacity: progress,
           transform: `translate(${(1 - progress) * enterOffset.tx}px, ${(1 - progress) * enterOffset.ty}px)`,
         }}
       >
         <div
           style={{
-            width: ICON_SIZE + 24,
-            height: ICON_SIZE + 24,
+            width: ICON_SIZE + 28,
+            height: ICON_SIZE + 28,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           {Icon ? (
-            <Icon size={ICON_SIZE} color={palette.ink} stroke={2} />
+            <Icon size={ICON_SIZE} color={accentStrokeUrl} stroke={2.4} />
           ) : (
             <div style={{ color: "red", fontFamily: "monospace", fontSize: 14 }}>missing: {side.iconName}</div>
           )}
@@ -76,11 +76,11 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
             fontFamily: FONT_FAMILY,
             fontSize: LABEL_FONT,
             fontWeight: 700,
-            color: palette.ink,
             textAlign: "center",
-            lineHeight: 1.15,
+            lineHeight: 1.12,
             maxWidth: width - 40,
-            letterSpacing: "-0.01em",
+            letterSpacing: "-0.02em",
+            ...gradientTextStyle(palette.sunset),
           }}
         >
           {side.label}
@@ -90,10 +90,10 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
             style={{
               fontFamily: FONT_FAMILY,
               fontSize: SUBLABEL_FONT,
-              fontWeight: 400,
-              color: palette.inkDim,
+              fontWeight: 500,
+              color: palette.accentDeep,
               textAlign: "center",
-              lineHeight: 1.25,
+              lineHeight: 1.22,
               maxWidth: width - 40,
             }}
           >
@@ -105,9 +105,9 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
   };
 
   if (direction === "vertical") {
-    const CONTAINER_W = 880;
-    const SIDE_H = 380;
-    const DIVIDER_H = 140;
+    const CONTAINER_W = 900;
+    const SIDE_H = 460;
+    const DIVIDER_H = 160;
     const CONTAINER_H = SIDE_H * 2 + DIVIDER_H;
 
     return (
@@ -144,13 +144,13 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
               <div
                 style={{
                   position: "absolute",
-                  height: 4,
-                  width: 360,
+                  height: 5,
+                  width: 420,
                   background: palette.accent,
                   top: "50%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  borderRadius: 2,
+                  borderRadius: 2.5,
                 }}
               />
             ) : null}
@@ -158,13 +158,13 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
               style={{
                 position: "relative",
                 background: palette.background,
-                padding: "10px 28px",
+                padding: "12px 32px",
                 fontFamily: FONT_FAMILY,
-                fontSize: 56,
+                fontSize: 64,
                 fontWeight: 700,
-                color: palette.ink,
+                color: palette.accent,
                 textTransform: "lowercase",
-                letterSpacing: "-0.01em",
+                letterSpacing: "-0.02em",
               }}
             >
               {track.divider.label}
@@ -179,8 +179,8 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
   }
 
   const CONTAINER_W = 1000;
-  const SIDE_H = 320;
-  const DIVIDER_W = 120;
+  const SIDE_H = 380;
+  const DIVIDER_W = 140;
   const sideWidth = (CONTAINER_W - DIVIDER_W) / 2;
 
   return (
@@ -215,13 +215,13 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
             <div
               style={{
                 position: "absolute",
-                width: 4,
-                height: 280,
+                width: 5,
+                height: 320,
                 background: palette.accent,
-                top: -140,
+                top: -160,
                 left: "50%",
                 transform: "translateX(-50%)",
-                borderRadius: 2,
+                borderRadius: 2.5,
               }}
             />
           ) : null}
@@ -229,13 +229,13 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
             style={{
               position: "relative",
               background: palette.background,
-              padding: "14px 22px",
+              padding: "16px 26px",
               fontFamily: FONT_FAMILY,
-              fontSize: 56,
+              fontSize: 64,
               fontWeight: 700,
-              color: palette.ink,
+              color: palette.accent,
               textTransform: "lowercase",
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.02em",
             }}
           >
             {track.divider.label}

@@ -16,7 +16,7 @@ export const IconRef: React.FC<{ track: IconTrack }> = ({ track }) => {
   const style = trackStyle(frame, track.startFrame, track.endFrame, track.enter, track.exit);
   if (!style.visible) return null;
 
-  const color = track.color ?? palette.ink;
+  const color = track.color ?? palette.accent;
   const lookup = TablerIcons as unknown as Record<string, TablerIconComponent>;
   const Icon = lookup[track.name];
 
