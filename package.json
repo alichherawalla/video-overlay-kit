@@ -1,0 +1,36 @@
+{
+  "name": "video-overlay-kit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "render": "tsx scripts/render.ts",
+    "preview": "remotion studio",
+    "mcp": "tsx mcp/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "private": "true",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@remotion/bundler": "^4.0.477",
+    "@remotion/cli": "^4.0.477",
+    "@remotion/lottie": "^4.0.477",
+    "@remotion/renderer": "^4.0.477",
+    "@tabler/icons-react": "^3.44.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4.0.477",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}

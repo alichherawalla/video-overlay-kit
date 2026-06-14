@@ -1,0 +1,36 @@
+{
+  "id": "hub",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "background": "#ffffff",
+  "durationFrames": 150,
+  "tracks": [
+    {
+      "kind": "title-overlay",
+      "id": "agenda",
+      "text": "One gateway, every signal",
+      "startFrame": 0,
+      "endFrame": 150,
+      "enter": { "kind": "slide-down", "durationFrames": 10, "ease": "easeOut" },
+      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+    },
+    {
+      "kind": "hub",
+      "id": "gateway-hub",
+      "position": { "x": 0.5, "y": 0.58 },
+      "startFrame": 20,
+      "endFrame": 150,
+      "center": { "iconName": "IconShield", "label": "Gateway" },
+      "satellites": [
+        { "iconName": "IconLock", "label": "Policy" },
+        { "iconName": "IconActivity", "label": "Logging" },
+        { "iconName": "IconCoin", "label": "Cost" },
+        { "iconName": "IconRefresh", "label": "Swap" }
+      ],
+      "revealCadenceFrames": 22,
+      "enter": { "kind": "none", "durationFrames": 0, "ease": "easeOut" },
+      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+    }
+  ]
+}

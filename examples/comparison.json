@@ -1,0 +1,32 @@
+{
+  "id": "comparison",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "background": "#ffffff",
+  "durationFrames": 180,
+  "tracks": [
+    {
+      "kind": "title-overlay",
+      "id": "agenda",
+      "text": "Old playbook vs new playbook",
+      "startFrame": 0,
+      "endFrame": 180,
+      "enter": { "kind": "slide-down", "durationFrames": 10, "ease": "easeOut" },
+      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+    },
+    {
+      "kind": "comparison",
+      "id": "old-vs-new",
+      "position": { "x": 0.5, "y": 0.55 },
+      "startFrame": 20,
+      "endFrame": 180,
+      "left": { "iconName": "IconClockHour3", "label": "Old way", "subLabel": "Manual review" },
+      "right": { "iconName": "IconBolt", "label": "New way", "subLabel": "Automated checks" },
+      "divider": { "label": "vs", "showLine": true },
+      "revealCadenceFrames": 25,
+      "enter": { "kind": "none", "durationFrames": 0, "ease": "easeOut" },
+      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+    }
+  ]
+}

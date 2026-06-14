@@ -1,0 +1,33 @@
+{
+  "id": "list-reveal",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "background": "#ffffff",
+  "durationFrames": 150,
+  "tracks": [
+    {
+      "kind": "title-overlay",
+      "id": "agenda",
+      "text": "How to control AI traffic in your company",
+      "startFrame": 0,
+      "endFrame": 150,
+      "enter": { "kind": "slide-down", "durationFrames": 10, "ease": "easeOut" },
+      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+    },
+    {
+      "kind": "list-reveal",
+      "id": "three-outcomes",
+      "position": { "x": 0.5, "y": 0.55 },
+      "startFrame": 20,
+      "endFrame": 150,
+      "rows": [
+        { "text": "One gateway in front of every model", "iconName": "IconShield", "revealAtFrame": 0 },
+        { "text": "Input policy. Output policy.", "iconName": "IconFilter", "revealAtFrame": 35 },
+        { "text": "Every prompt, every dollar, every output", "iconName": "IconChartBar", "revealAtFrame": 70 }
+      ],
+      "enter": { "kind": "none", "durationFrames": 0, "ease": "easeOut" },
+      "exit": { "kind": "fade", "durationFrames": 10, "ease": "easeOut" }
+    }
+  ]
+}
