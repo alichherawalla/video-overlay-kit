@@ -51,19 +51,23 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   const ARROW_HEAD = Math.round((isLandscape ? 30 : 26) * horizScale);
 
   if (direction === "vertical") {
+    // Fill the available content area under the title evenly, regardless of node count.
+    // 2/3/4 items all read the same — content is anchored to the canvas, not floating.
+    const TITLE_REGION = isLandscape ? 200 : 360;
+    const BOTTOM_MARGIN = isLandscape ? 80 : 120;
     const CONTAINER_W = 780;
-    const SLOT_H = isLandscape ? 460 : 400;
+    const CONTAINER_H = config.height - TITLE_REGION - BOTTOM_MARGIN;
+    const SLOT_H = CONTAINER_H / n;
     const ARROW_MARGIN = isLandscape ? 18 : 12;
-    const CONTAINER_H = SLOT_H * n;
     const cx = CONTAINER_W / 2;
 
     return (
       <div
         style={{
           position: "absolute",
-          left: `${track.position.x * 100}%`,
-          top: `${track.position.y * 100}%`,
-          transform: `translate(-50%, -50%) ${containerStyle.transform}`,
+          left: "50%",
+          top: TITLE_REGION,
+          transform: `translateX(-50%) ${containerStyle.transform}`,
           opacity: containerStyle.opacity,
           width: CONTAINER_W,
           height: CONTAINER_H,
