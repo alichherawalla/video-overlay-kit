@@ -1,3 +1,5 @@
+.DS_Store
+.remotion/
+**/.DS_Store
 node_modules/
 output/
-.remotion/

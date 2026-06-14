@@ -129,6 +129,21 @@
     font-family: var(--font);
   }
   .preset:hover { border-color: var(--accent); color: var(--accent); }
+  .preset[data-aspect="landscape"]::before { content: "▭ "; opacity: 0.6; }
+  .preset[data-aspect="portrait"]::before { content: "▯ "; opacity: 0.6; }
+
+  .aspect-toggle { display: inline-flex; border: 1px solid var(--hairline); border-radius: 999px; overflow: hidden; }
+  .aspect-toggle button {
+    padding: 8px 16px; font-size: 13px; font-weight: 600;
+    background: transparent; border: none; color: var(--ink-muted);
+    cursor: pointer; font-family: var(--font);
+    transition: background 160ms ease-out, color 160ms ease-out;
+  }
+  .aspect-toggle button + button { border-left: 1px solid var(--hairline); }
+  .aspect-toggle button.active { background: var(--accent); color: #fff; }
+  .aspect-toggle button:not(.active):hover { color: var(--accent); }
+  .aspect-hint { font-size: 12px; color: var(--ink-dim); flex: 1; }
+  .platform[data-aspect-mode="hidden"] { display: none; }
 
   /* mockups grid */
   .mockups {
@@ -323,10 +338,18 @@
         Files load locally via blob URL. Nothing uploads. URLs must allow cross-origin video. Try one of the bundled examples:
       </div>
       <div class="preset-row">
-        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.mp4">list-reveal · portrait</button>
-        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow.mp4">flow · portrait</button>
-        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison-landscape.mp4">comparison · landscape</button>
-        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub-landscape.mp4">hub · landscape</button>
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.mp4" data-aspect="portrait">list-reveal · portrait</button>
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow.mp4" data-aspect="portrait">flow · portrait</button>
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison-landscape.mp4" data-aspect="landscape">comparison · landscape</button>
+        <button class="preset" data-url="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub-landscape.mp4" data-aspect="landscape">hub · landscape</button>
+      </div>
+      <div class="loader-row" style="margin-top: 18px;">
+        <label>Aspect</label>
+        <div class="aspect-toggle">
+          <button data-aspect="portrait" class="active">Portrait · 9:16</button>
+          <button data-aspect="landscape">Landscape · 16:9</button>
+        </div>
+        <span class="aspect-hint" id="aspect-hint">Auto-detected from the video. Click to override.</span>
       </div>
     </div>
   </div>
@@ -340,7 +363,7 @@
     <div class="grid">
 
       <!-- YouTube -->
-      <div class="platform">
+      <div class="platform" data-supports="landscape">
         <div class="heading">
           <span>YouTube · 16:9</span>
           <span class="pill">desktop / TV</span>
@@ -363,7 +386,7 @@
       </div>
 
       <!-- Instagram Reel -->
-      <div class="platform">
+      <div class="platform" data-supports="portrait">
         <div class="heading">
           <span>Instagram Reels · 9:16</span>
           <span class="pill">mobile</span>
@@ -392,7 +415,7 @@
       </div>
 
       <!-- LinkedIn -->
-      <div class="platform">
+      <div class="platform" data-supports="both">
         <div class="heading">
           <span>LinkedIn · 16:9 or 9:16</span>
           <span class="pill">feed post</span>
@@ -418,7 +441,7 @@
       </div>
 
       <!-- X / Twitter -->
-      <div class="platform">
+      <div class="platform" data-supports="both">
         <div class="heading">
           <span>X · 16:9 or 9:16</span>
           <span class="pill">tweet</span>
@@ -443,6 +466,65 @@
         </div>
       </div>
 
+      <!-- YouTube Shorts -->
+      <div class="platform" data-supports="portrait">
+        <div class="heading">
+          <span>YouTube Shorts · 9:16</span>
+          <span class="pill">mobile</span>
+        </div>
+        <div class="stage">
+          <div class="ig-phone">
+            <div class="ig-screen">
+              <video id="yts-video" muted autoplay loop playsinline></video>
+              <div class="ig-overlay"></div>
+              <div class="ig-top">
+                <span>Shorts</span>
+                <span style="color:#ff0033;font-weight:800;">▶</span>
+              </div>
+              <div class="ig-bottom">
+                <div class="user">@aliChherawalla · Subscribe</div>
+                <div>Caption appears here · 1.2K views</div>
+              </div>
+              <div class="ig-actions">
+                <div class="ig-action"><div class="icon">👍</div><div>2.4k</div></div>
+                <div class="ig-action"><div class="icon">👎</div><div></div></div>
+                <div class="ig-action"><div class="icon">💬</div><div>62</div></div>
+                <div class="ig-action"><div class="icon">↗</div><div>Share</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TikTok -->
+      <div class="platform" data-supports="portrait">
+        <div class="heading">
+          <span>TikTok · 9:16</span>
+          <span class="pill">mobile</span>
+        </div>
+        <div class="stage">
+          <div class="ig-phone">
+            <div class="ig-screen">
+              <video id="tt-video" muted autoplay loop playsinline></video>
+              <div class="ig-overlay"></div>
+              <div class="ig-top">
+                <span style="font-weight:700;">For You</span>
+                <span>⊕</span>
+              </div>
+              <div class="ig-bottom">
+                <div class="user">@aliChherawalla</div>
+                <div>Caption + #foryou #bfsi #ai · original sound</div>
+              </div>
+              <div class="ig-actions">
+                <div class="ig-action"><div class="icon">♡</div><div>14.2k</div></div>
+                <div class="ig-action"><div class="icon">💬</div><div>340</div></div>
+                <div class="ig-action"><div class="icon">↗</div><div>1.1k</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -460,15 +542,33 @@
 </footer>
 
 <script>
-  const videos = ["yt-video", "ig-video", "li-video", "x-video"].map(id => document.getElementById(id));
+  const videos = ["yt-video", "ig-video", "li-video", "x-video", "yts-video", "tt-video"].map(id => document.getElementById(id));
   const liWrap = document.getElementById("li-video-wrap");
   const xWrap = document.getElementById("x-video-wrap");
+  const platforms = Array.from(document.querySelectorAll(".platform"));
+  const aspectButtons = Array.from(document.querySelectorAll(".aspect-toggle button"));
+  const aspectHint = document.getElementById("aspect-hint");
+  let manualAspect = null; // 'portrait' | 'landscape' | null (auto)
 
-  const detectAspectAndSetWrappers = (videoEl) => {
+  const applyAspect = (aspect) => {
+    aspectButtons.forEach(b => b.classList.toggle("active", b.dataset.aspect === aspect));
+    platforms.forEach(p => {
+      const supports = p.dataset.supports;
+      const show = supports === "both" || supports === aspect;
+      p.dataset.aspectMode = show ? "shown" : "hidden";
+    });
+    // tell LinkedIn + X to letterbox correctly
+    const portrait = aspect === "portrait";
+    liWrap.classList.toggle("portrait", portrait);
+    xWrap.classList.toggle("portrait", portrait);
+  };
+
+  const detectAndApply = (videoEl) => {
     videoEl.addEventListener("loadedmetadata", () => {
+      if (manualAspect) return;
       const portrait = videoEl.videoHeight > videoEl.videoWidth;
-      liWrap.classList.toggle("portrait", portrait);
-      xWrap.classList.toggle("portrait", portrait);
+      applyAspect(portrait ? "portrait" : "landscape");
+      aspectHint.textContent = "Auto-detected from the video. Click to override.";
     }, { once: true });
   };
 
@@ -478,29 +578,42 @@
       v.load();
       v.play().catch(() => {});
     });
-    detectAspectAndSetWrappers(videos[0]);
+    detectAndApply(videos[0]);
   };
 
+  aspectButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      manualAspect = btn.dataset.aspect;
+      applyAspect(manualAspect);
+      aspectHint.textContent = "Manual override active. Load a new clip to auto-detect again.";
+    });
+  });
+
   // initial: load list-reveal as the demo
+  applyAspect("portrait");
   setVideoSrc("https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.mp4");
 
   document.getElementById("file-input").addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    manualAspect = null;
     const url = URL.createObjectURL(file);
     setVideoSrc(url);
   });
 
   const urlInput = document.getElementById("url-input");
   document.getElementById("url-load").addEventListener("click", () => {
-    if (urlInput.value.trim()) setVideoSrc(urlInput.value.trim());
+    if (urlInput.value.trim()) { manualAspect = null; setVideoSrc(urlInput.value.trim()); }
   });
   urlInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && urlInput.value.trim()) setVideoSrc(urlInput.value.trim());
+    if (e.key === "Enter" && urlInput.value.trim()) { manualAspect = null; setVideoSrc(urlInput.value.trim()); }
   });
 
   document.querySelectorAll(".preset").forEach(btn => {
-    btn.addEventListener("click", () => setVideoSrc(btn.dataset.url));
+    btn.addEventListener("click", () => {
+      manualAspect = null;
+      setVideoSrc(btn.dataset.url);
+    });
   });
 </script>
 
