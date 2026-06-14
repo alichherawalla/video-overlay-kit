@@ -132,12 +132,13 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
             <div
               style={{
                 position: "absolute",
-                width: 3,
-                height: 180,
+                width: 4,
+                height: 280,
                 background: palette.accent,
-                top: -90,
+                top: -140,
                 left: "50%",
                 transform: "translateX(-50%)",
+                borderRadius: 2,
               }}
             />
           ) : null}
@@ -145,12 +146,13 @@ export const Comparison: React.FC<{ track: ComparisonTrack }> = ({ track }) => {
             style={{
               position: "relative",
               background: palette.background,
-              padding: "10px 16px",
+              padding: "14px 22px",
               fontFamily: FONT_FAMILY,
-              fontSize: 44,
+              fontSize: 56,
               fontWeight: 700,
               color: palette.ink,
               textTransform: "lowercase",
+              letterSpacing: "-0.01em",
             }}
           >
             {track.divider.label}
