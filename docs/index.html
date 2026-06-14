@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VideoOverlayKit — b-roll for technical videos, free</title>
+<meta name="description" content="Make b-roll animations for your technical videos. Tell an agent what you want, get an MP4 back. Free local MCP server that drives Remotion. Wednesday Solutions design system as default." />
+<meta property="og:title" content="VideoOverlayKit" />
+<meta property="og:description" content="Make b-roll animations for technical videos. Drive from Claude Code via MCP. Zero per-render cost." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://alichherawalla.github.io/video-overlay-kit/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://alichherawalla.github.io/video-overlay-kit/" />
+<style>
+  :root {
+    --bg: #F0EDF8;
+    --elev-1: #FAF8FF;
+    --ink: #0B0B0D;
+    --ink-muted: #3A3A4A;
+    --ink-dim: #6B6B7E;
+    --accent: #7A5BDC;
+    --accent-deep: #5A3DB8;
+    --hairline: #CCCAE0;
+    --sunset: linear-gradient(135deg, #DE7BAD 0%, #B153D3 28%, #A485F5 58%, #7A5BDC 82%, #5A3DB8 100%);
+    --bloom: radial-gradient(ellipse 80% 60% at 50% 28%, rgba(122,91,220,0.22) 0%, rgba(177,83,211,0.08) 38%, rgba(122,91,220,0.04) 65%, transparent 90%);
+    --font: 'Aeonik', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, pre { font-family: var(--mono); font-size: 14px; }
+  pre {
+    background: var(--elev-1);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 24px;
+    overflow-x: auto;
+    line-height: 1.55;
+    color: var(--ink-muted);
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .gradient-text {
+    background-image: var(--sunset);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* nav */
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(240,237,248,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  nav .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  nav .logo { font-weight: 800; font-size: 17px; letter-spacing: -0.015em; }
+  nav .logo .gradient-text { font-weight: 800; }
+  nav .links { display: flex; gap: 28px; align-items: center; font-size: 15px; color: var(--ink-muted); }
+  nav .links a { color: var(--ink-muted); }
+  nav .links a:hover { color: var(--accent); text-decoration: none; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff;
+    padding: 10px 18px;
+    border-radius: 0;
+    font-weight: 600; font-size: 15px;
+    letter-spacing: -0.005em;
+    transition: background 160ms ease-out, transform 160ms ease-out;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); text-decoration: none; transform: translateY(-1px); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 0;
+    font-weight: 600; font-size: 15px;
+    border: 1px solid var(--hairline);
+    transition: border-color 160ms ease-out, transform 160ms ease-out;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; transform: translateY(-1px); }
+
+  /* hero */
+  .hero {
+    position: relative;
+    padding: 96px 0 64px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: var(--bloom);
+    pointer-events: none;
+  }
+  .hero .wrap { position: relative; z-index: 1; }
+  .eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 24px;
+  }
+  .hero p.lead {
+    font-size: clamp(18px, 2.4vw, 24px);
+    color: var(--ink-muted);
+    max-width: 720px;
+    margin: 0 auto 40px;
+    line-height: 1.4;
+  }
+  .hero .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* gallery */
+  section { padding: 80px 0; }
+  section.alt { background: var(--elev-1); }
+  h2 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 16px;
+  }
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .section-lead {
+    font-size: 18px;
+    color: var(--ink-muted);
+    max-width: 640px;
+    margin: 0 0 48px;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .card {
+    background: var(--elev-1);
+    border: 1px solid var(--hairline);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 200ms ease-out, border-color 200ms ease-out;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card .media {
+    aspect-ratio: 9 / 16;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .card .media img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .card .body { padding: 24px 28px 28px; }
+  .card h3 code {
+    color: var(--accent);
+    font-size: 18px;
+    background: rgba(122,91,220,0.08);
+    padding: 2px 10px;
+    border-radius: 6px;
+  }
+  .card .body p { margin: 12px 0 16px; color: var(--ink-muted); font-size: 16px; line-height: 1.5; }
+  .card .body .links a { font-size: 14px; color: var(--accent); margin-right: 16px; font-weight: 600; }
+  .card .body .links a:hover { color: var(--accent-deep); }
+
+  /* start */
+  .start-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .start pre {
+    font-size: 13px;
+    line-height: 1.6;
+    max-height: 540px;
+    overflow-y: auto;
+  }
+  .start ol { padding-left: 20px; color: var(--ink-muted); }
+  .start ol li { margin-bottom: 14px; }
+
+  /* customize */
+  .config-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--elev-1);
+  }
+  .config-table th, .config-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--hairline);
+    font-size: 15px;
+    vertical-align: top;
+  }
+  .config-table tr:last-child th, .config-table tr:last-child td { border-bottom: none; }
+  .config-table th { background: var(--bg); font-weight: 700; color: var(--ink); }
+  .config-table td:first-child { color: var(--ink); font-weight: 500; }
+  .config-table td:last-child code { background: rgba(122,91,220,0.08); padding: 2px 8px; border-radius: 4px; color: var(--accent-deep); }
+
+  /* CTA strip */
+  .cta-strip {
+    text-align: center;
+    padding: 96px 24px;
+    background: var(--bloom);
+  }
+  .cta-strip h2 { margin-bottom: 16px; }
+  .cta-strip p { color: var(--ink-muted); margin-bottom: 32px; font-size: 18px; }
+  .cta-strip .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* footer */
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 40px 0;
+    color: var(--ink-dim);
+    font-size: 14px;
+  }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  footer .links { display: flex; gap: 24px; }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--accent); }
+
+  /* responsive */
+  @media (max-width: 760px) {
+    nav .links a { display: none; }
+    nav .links .btn-primary, nav .links .btn-secondary { display: inline-flex; }
+    .gallery { grid-template-columns: 1fr; }
+    .start-grid { grid-template-columns: 1fr; gap: 32px; }
+    section { padding: 56px 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="gradient-text">VideoOverlayKit</span></div>
+    <div class="links">
+      <a href="#what">What you make</a>
+      <a href="#start">Start</a>
+      <a href="#customize">Customize</a>
+      <a href="https://github.com/sponsors/alichherawalla">Sponsor</a>
+      <a class="btn-primary" href="https://github.com/alichherawalla/video-overlay-kit">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Free · Local · MCP-driven</p>
+    <h1>Make b-roll for your<br/><span class="gradient-text">technical videos.</span></h1>
+    <p class="lead">Tell an agent what you want. Get an MP4 back. No per-render cost, no API calls, no cloud. Drives from Claude Code via MCP, or from the CLI.</p>
+    <div class="ctas">
+      <a class="btn-primary" href="https://github.com/alichherawalla/video-overlay-kit">View on GitHub</a>
+      <a class="btn-secondary" href="#start">One-shot setup ↓</a>
+      <a class="btn-secondary" href="https://github.com/sponsors/alichherawalla">♡ Sponsor</a>
+    </div>
+  </div>
+</section>
+
+<section id="what">
+  <div class="wrap">
+    <p class="eyebrow">What you can make</p>
+    <h2>Four building blocks.<br/>Combine them in one scene.</h2>
+    <p class="section-lead">Every clip below is real output. 1080×1920 vertical, 5 to 6 seconds, Wednesday Solutions design system as the default theme.</p>
+
+    <div class="gallery">
+      <div class="card">
+        <div class="media">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.gif" alt="list-reveal preview" />
+        </div>
+        <div class="body">
+          <h3><code>list-reveal</code></h3>
+          <p>A title at the top, then 1 to 5 rows revealing on cue. Each row has an icon and a label. The most common shape.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/list-reveal.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/list-reveal.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="media">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow.gif" alt="flow preview" />
+        </div>
+        <div class="body">
+          <h3><code>flow</code></h3>
+          <p>A process from A to B to C. Each node appears, an arrow draws between them, the next node appears. Vertical on portrait canvases, horizontal on landscape.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/flow.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/flow.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="media">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison.gif" alt="comparison preview" />
+        </div>
+        <div class="body">
+          <h3><code>comparison</code></h3>
+          <p>Two icons with a configurable divider between them. Old way vs new way. Cyber security vs AI security. Manual vs automated.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/comparison.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/comparison.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="media">
+          <img src="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub.gif" alt="hub preview" />
+        </div>
+        <div class="body">
+          <h3><code>hub</code></h3>
+          <p>A central concept with 2 to 4 satellites that connect in via lines. A gateway controlling policy, logging, cost, and swap is a hub.</p>
+          <div class="links">
+            <a href="https://github.com/alichherawalla/video-overlay-kit/blob/main/examples/hub.json">spec.json</a>
+            <a href="https://github.com/alichherawalla/video-overlay-kit/raw/main/examples/hub.mp4">mp4</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="start" class="alt start">
+  <div class="wrap">
+    <p class="eyebrow">Start here</p>
+    <h2>Paste this into Claude Code.<br/>You're done in 90 seconds.</h2>
+    <p class="section-lead">The agent clones the repo, installs deps, wires the MCP into your config, verifies the server boots, and is ready to render videos when you ask.</p>
+
+    <div class="start-grid">
+      <div>
+        <h3>The prompt</h3>
+        <pre>Set up github.com/alichherawalla/video-overlay-kit as an
+MCP server in my Claude Code config.
+
+1. Clone the repo to ~/code/video-overlay-kit (or ask me
+   where to put it if that path is taken).
+2. Run `npm install` inside the cloned directory.
+3. Add a `video-overlay-kit` entry to my MCP config that
+   runs `node &lt;absolute-cloned-path&gt;/bin/mcp.mjs`. Use
+   the project's .mcp.json if I'm currently inside a git
+   repo, otherwise my global ~/.claude/mcp_settings.json.
+   Preserve any existing MCP servers.
+4. Verify the server starts by sending it a tools/list
+   JSON-RPC request over stdio and confirming the tools
+   list_icons, validate_scene, and render_scene come back.
+5. Tell me to restart Claude Code so the new MCP server
+   is picked up.
+
+After setup, read the README at the cloned repo so you
+know how to author scene specs. Default to the Wednesday
+Solutions light theme and 5-second duration unless I say
+otherwise.</pre>
+      </div>
+      <div>
+        <h3>Then ask for a video</h3>
+        <p style="color: var(--ink-muted); margin-top: 0;">In plain English. No JSON editing.</p>
+        <blockquote style="border-left: 3px solid var(--accent); margin: 0; padding: 8px 0 8px 20px; color: var(--ink); font-size: 17px; line-height: 1.6;">
+          "Make me a 5-second overlay titled <em>A runbook for every incident</em> with three rows: drift, prompt injection, exfil attempts."
+        </blockquote>
+        <p style="color: var(--ink-muted); margin-top: 24px;">The agent:</p>
+        <ol>
+          <li>Calls <code>list_icons("alert")</code> to find icons.</li>
+          <li>Authors the spec.</li>
+          <li>Calls <code>validate_scene(spec)</code>.</li>
+          <li>Calls <code>render_scene(spec, "./out.mp4")</code>.</li>
+          <li>Returns the file path.</li>
+        </ol>
+        <p style="color: var(--ink-muted);">You drop the MP4 into your editor. End-to-end loop: 10 to 20 seconds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="customize">
+  <div class="wrap">
+    <p class="eyebrow">Customize the look</p>
+    <h2>Every default is configurable.<br/>You ask in plain language.</h2>
+    <p class="section-lead">The kit ships polished out of the box, with the Wednesday Solutions palette, an ambient bloom behind every scene, and a sunset gradient on every primary text label. Override any of it.</p>
+
+    <table class="config-table">
+      <thead>
+        <tr><th>Tell the agent</th><th>What happens</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>"Render it in dark mode"</td><td><code>theme: "dark"</code></td></tr>
+        <tr><td>"Use a black background"</td><td><code>background: "#000000"</code></td></tr>
+        <tr><td>"Flat background, no bloom"</td><td><code>bloom: false</code></td></tr>
+        <tr><td>"Solid colour title, no gradient"</td><td><code>titleGradient: false</code></td></tr>
+        <tr><td>"Put the team photo behind it"</td><td><code>backgroundImage: { source: "team.jpg" }</code></td></tr>
+        <tr><td>"Make the accent red instead of lavender"</td><td><code>palette: { accent: "#E74C3C" }</code></td></tr>
+        <tr><td>"Transparent background, I'll composite it myself"</td><td><code>background: "transparent"</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <p class="eyebrow">Why this exists</p>
+    <h2>The fourth path.</h2>
+    <p class="section-lead" style="margin-bottom: 32px;">Most short-form B2B video is a talking head with overlay graphics. Done well, the overlays carry as much of the message as the speaker.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;">
+      <div>
+        <h3>Hire an editor</h3>
+        <p style="color: var(--ink-muted); font-size: 15px;">₹500 to ₹2000 per reel. Slow loop. Dependency on a person.</p>
+      </div>
+      <div>
+        <h3>SaaS like Submagic</h3>
+        <p style="color: var(--ink-muted); font-size: 15px;">$20 to $25 per month. Fixed style. AI-generated quality varies.</p>
+      </div>
+      <div>
+        <h3>Learn After Effects</h3>
+        <p style="color: var(--ink-muted); font-size: 15px;">Real time investment. Bespoke control. Not scriptable from your terminal.</p>
+      </div>
+      <div>
+        <h3 style="color: var(--accent);">VideoOverlayKit</h3>
+        <p style="color: var(--ink-muted); font-size: 15px;">Free. Local. Driven from your terminal or Claude Code. The agent writes the spec; you handle the message.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <div class="wrap">
+    <h2 class="gradient-text" style="margin-bottom: 8px;">Open source, MIT, zero per-render cost.</h2>
+    <p>If the kit saves you time or render budget, the easiest way to give back is to sponsor on GitHub. Sponsorships fund new components, better defaults, and bug fixes that ship faster than I can do them in evenings.</p>
+    <div class="ctas">
+      <a class="btn-primary" href="https://github.com/alichherawalla/video-overlay-kit">View on GitHub</a>
+      <a class="btn-secondary" href="https://github.com/sponsors/alichherawalla">♡ Sponsor on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Mohammed Ali Chherawalla · MIT licensed</div>
+    <div class="links">
+      <a href="https://github.com/alichherawalla/video-overlay-kit">GitHub</a>
+      <a href="https://github.com/sponsors/alichherawalla">Sponsor</a>
+      <a href="https://wednesday.is">Wednesday Solutions</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
