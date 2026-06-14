@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.alichherawalla/video-overlay-kit",
+  "description": "Animated b-roll overlays for short-form video. Paste a script, get an mp4. Free, MIT, local.",
+  "repository": {
+    "url": "https://github.com/alichherawalla/video-overlay-kit",
+    "source": "github"
+  },
+  "websiteUrl": "https://alichherawalla.github.io/video-overlay-kit/",
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@alichherawalla/video-overlay-kit",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

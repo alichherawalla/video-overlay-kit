@@ -1,19 +1,53 @@
 {
-  "name": "video-overlay-kit",
+  "name": "@alichherawalla/video-overlay-kit",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "AI-driven animated b-roll overlay renderer for short-form video. Paste a script into your AI coding tool, the MCP server writes the scene spec and renders an mp4. Free, MIT, local.",
+  "main": "mcp/server.ts",
+  "bin": {
+    "video-overlay-kit-mcp": "mcp/server.ts"
+  },
+  "files": [
+    "mcp/",
+    "src/",
+    "scripts/",
+    "examples/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "render": "tsx scripts/render.ts",
     "preview": "remotion studio",
     "mcp": "tsx mcp/server.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "video",
+    "overlay",
+    "b-roll",
+    "short-form-video",
+    "remotion",
+    "linkedin",
+    "instagram-reels",
+    "youtube-shorts",
+    "tiktok",
+    "claude-code",
+    "cursor",
+    "codex"
+  ],
+  "author": "Mohammed Ali Chherawalla <mac@wednesday.is> (https://github.com/alichherawalla)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alichherawalla/video-overlay-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alichherawalla/video-overlay-kit/issues"
+  },
+  "homepage": "https://alichherawalla.github.io/video-overlay-kit/",
+  "mcpName": "io.github.alichherawalla/video-overlay-kit",
   "type": "module",
-  "private": "true",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@remotion/bundler": "^4.0.477",
