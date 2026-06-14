@@ -4,34 +4,53 @@
 
 Zero per-render cost. Wednesday Solutions design system as the default theme. Built for people who ship a lot of short-form video and don't want to learn After Effects. Works with any MCP-compatible agent — Claude Code, Codex, OpenCode, Cursor, Cline, or anything else that speaks the [Model Context Protocol](https://modelcontextprotocol.io/).
 
+Same scene spec, both orientations. Portrait fits TikTok / Instagram Reels / YouTube Shorts. Landscape fits YouTube / desktop / TV. The kit auto-flips the layout based on the canvas aspect.
+
+### `list-reveal` · a title and three points appearing on cue
+
 <table>
   <tr>
-    <td align="center" width="50%">
-      <img src="examples/list-reveal.gif" alt="list-reveal preview" width="100%" />
-      <br/>
-      A title and three points appearing on cue. <a href="examples/list-reveal.json">spec</a> · <a href="examples/list-reveal.mp4">mp4</a>
-    </td>
-    <td align="center" width="50%">
-      <img src="examples/flow.gif" alt="flow preview" width="100%" />
-      <br/>
-      A process: <i>incident → runbook → contained.</i> <a href="examples/flow.json">spec</a> · <a href="examples/flow.mp4">mp4</a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
-      <img src="examples/comparison.gif" alt="comparison preview" width="100%" />
-      <br/>
-      Two things in contrast: <i>old way vs new way.</i> <a href="examples/comparison.json">spec</a> · <a href="examples/comparison.mp4">mp4</a>
-    </td>
-    <td align="center" width="50%">
-      <img src="examples/hub.gif" alt="hub preview" width="100%" />
-      <br/>
-      A center concept and what hangs off it. <a href="examples/hub.json">spec</a> · <a href="examples/hub.mp4">mp4</a>
-    </td>
+    <td align="center" width="36%"><img src="examples/list-reveal.gif" alt="list-reveal portrait" width="100%" /><br/><sub>Portrait · 1080×1920</sub></td>
+    <td align="center" width="64%"><img src="examples/list-reveal-landscape.gif" alt="list-reveal landscape" width="100%" /><br/><sub>Landscape · 1920×1080</sub></td>
   </tr>
 </table>
 
-Every clip above is real output. 5 to 6 seconds, 1080×1920 vertical, default theme. Click any `mp4` link for the full-quality version.
+<sub>Portrait <a href="examples/list-reveal.json">spec</a> · <a href="examples/list-reveal.mp4">mp4</a> &nbsp; • &nbsp; Landscape <a href="examples/list-reveal-landscape.json">spec</a> · <a href="examples/list-reveal-landscape.mp4">mp4</a></sub>
+
+### `flow` · a process from A to B to C
+
+<table>
+  <tr>
+    <td align="center" width="36%"><img src="examples/flow.gif" alt="flow portrait" width="100%" /><br/><sub>Portrait · 1080×1920</sub></td>
+    <td align="center" width="64%"><img src="examples/flow-landscape.gif" alt="flow landscape" width="100%" /><br/><sub>Landscape · 1920×1080</sub></td>
+  </tr>
+</table>
+
+<sub>Portrait <a href="examples/flow.json">spec</a> · <a href="examples/flow.mp4">mp4</a> &nbsp; • &nbsp; Landscape <a href="examples/flow-landscape.json">spec</a> · <a href="examples/flow-landscape.mp4">mp4</a></sub>
+
+### `comparison` · two things in contrast
+
+<table>
+  <tr>
+    <td align="center" width="36%"><img src="examples/comparison.gif" alt="comparison portrait" width="100%" /><br/><sub>Portrait · 1080×1920</sub></td>
+    <td align="center" width="64%"><img src="examples/comparison-landscape.gif" alt="comparison landscape" width="100%" /><br/><sub>Landscape · 1920×1080</sub></td>
+  </tr>
+</table>
+
+<sub>Portrait <a href="examples/comparison.json">spec</a> · <a href="examples/comparison.mp4">mp4</a> &nbsp; • &nbsp; Landscape <a href="examples/comparison-landscape.json">spec</a> · <a href="examples/comparison-landscape.mp4">mp4</a></sub>
+
+### `hub` · a centre concept with satellites pointing in
+
+<table>
+  <tr>
+    <td align="center" width="36%"><img src="examples/hub.gif" alt="hub portrait" width="100%" /><br/><sub>Portrait · 1080×1920</sub></td>
+    <td align="center" width="64%"><img src="examples/hub-landscape.gif" alt="hub landscape" width="100%" /><br/><sub>Landscape · 1920×1080</sub></td>
+  </tr>
+</table>
+
+<sub>Portrait <a href="examples/hub.json">spec</a> · <a href="examples/hub.mp4">mp4</a> &nbsp; • &nbsp; Landscape <a href="examples/hub-landscape.json">spec</a> · <a href="examples/hub-landscape.mp4">mp4</a></sub>
+
+Every clip above is real output. 5 to 6 seconds. Wednesday Solutions design system as the default theme. Click any `mp4` link for the full-quality version.
 
 ---
 
