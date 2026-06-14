@@ -2,7 +2,7 @@
 
 **Make b-roll for your videos. Tell an agent what you want. Get an MP4 back.**
 
-Zero per-render cost. Wednesday Solutions design system as the default theme. Built for people who ship a lot of short-form video and don't want to learn After Effects.
+Zero per-render cost. Wednesday Solutions design system as the default theme. Built for people who ship a lot of short-form video and don't want to learn After Effects. Works with any MCP-compatible agent — Claude Code, Codex, OpenCode, Cursor, Cline, or anything else that speaks the [Model Context Protocol](https://modelcontextprotocol.io/).
 
 <table>
   <tr>
@@ -37,23 +37,28 @@ Every clip above is real output. 5 to 6 seconds, 1080×1920 vertical, default th
 
 ## Start here
 
-Paste this into a fresh Claude Code or Codex session. The agent does the whole setup. It clones the repo, installs deps, wires the MCP into your config, and verifies it works.
+Paste this into a fresh session of any MCP-compatible coding agent (Claude Code, Codex, OpenCode, Cursor, Cline, etc). The agent does the whole setup. It clones the repo, installs deps, wires the MCP into your config, and verifies it works.
 
 ```
-Set up github.com/alichherawalla/video-overlay-kit as an MCP server in my
-Claude Code config.
+Set up github.com/alichherawalla/video-overlay-kit as an MCP server in
+my coding agent.
 
 1. Clone the repo to ~/code/video-overlay-kit (or ask me where to put it
    if that path is taken).
 2. Run `npm install` inside the cloned directory.
-3. Add a `video-overlay-kit` entry to my MCP config that runs
-   `node <absolute-cloned-path>/bin/mcp.mjs`. Use the project's `.mcp.json`
-   if I'm currently inside a git repo, otherwise my global
-   `~/.claude/mcp_settings.json`. Preserve any existing MCP servers.
+3. Find my MCP config file and add a `video-overlay-kit` entry that runs
+   `node <absolute-cloned-path>/bin/mcp.mjs`. Pick the right path for my
+   agent:
+     - Claude Code: `.mcp.json` in the current repo, otherwise
+       `~/.claude/mcp_settings.json`.
+     - Codex / OpenCode: their MCP config (usually `~/.codex/mcp.json`
+       or similar — ask me if you can't find it).
+     - Cursor / Cline: their MCP settings in the IDE config.
+   Preserve any existing MCP servers in the config.
 4. Verify the server starts by sending it a `tools/list` JSON-RPC request
    over stdio and confirming the tools `list_icons`, `validate_scene`, and
    `render_scene` come back.
-5. Tell me to restart Claude Code so the new MCP server is picked up.
+5. Tell me to restart my agent so the new MCP server is picked up.
 
 After setup, read the README at the cloned repo so you know how to author
 scene specs. Default to the Wednesday Solutions light theme and 5-second
