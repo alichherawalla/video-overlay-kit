@@ -30,10 +30,11 @@ export const Hub: React.FC<{ track: HubTrack }> = ({ track }) => {
   const containerStyle = trackStyle(frame, track.startFrame, track.endFrame, track.enter, track.exit);
   if (!containerStyle.visible) return null;
 
-  // Fit the hub into the canvas with breathing room for the title.
+  // Fit the hub into the canvas with breathing room above (title) and below (margin).
   const isLandscape = config.width > config.height;
-  const titleReserve = 420;
-  const heightFit = config.height - titleReserve;
+  const titleReserve = isLandscape ? 240 : 420;
+  const bottomMargin = isLandscape ? 100 : 120;
+  const heightFit = config.height - titleReserve - bottomMargin;
   const widthFit = Math.round(config.width * 0.92);
 
   // Scale icons + labels uniformly so they don't look distorted, sized to the shorter dim.
