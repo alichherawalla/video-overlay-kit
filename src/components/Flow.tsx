@@ -41,11 +41,18 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   const baseArrowHead = isLandscape ? 30 : 26;
   const baseArrowMargin = isLandscape ? 18 : 12;
 
-  // For horizontal flow on portrait, scale icons against available slot width
-  // so the arrows actually fit between nodes.
+  // For horizontal flow, scale icons against available slot width so a
+  // visible connector line fits between adjacent nodes. Applies to landscape
+  // too — without this, 5+ landscape nodes overflow the slot and the arrow
+  // collapses to just its head.
+  // Reserved gap on each side of the icon = 16px (matches arrowGap below).
+  const MIN_HORIZ_LINE = isLandscape ? 120 : 60;
   const horizScale =
-    direction === "horizontal" && !isLandscape
-      ? Math.min(1, (Math.round(config.width * 0.88) / track.nodes.length) / (baseIconBox + 80))
+    direction === "horizontal"
+      ? Math.min(
+          1,
+          (Math.round(config.width * 0.88) / track.nodes.length - MIN_HORIZ_LINE - 32) / baseIconBox,
+        )
       : 1;
 
   // For vertical flow, scale down only the icon + label when the per-node
@@ -70,9 +77,12 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   const LABEL_FONT = Math.round(baseLabelFont * cardScale);
   const LABEL_HEIGHT = isLandscape && !isVertical ? baseLabelHeight : Math.round(baseLabelHeight * cardScale);
   const LABEL_GAP_FROM_ICON = isVertical ? Math.round(baseLabelGap * cardScale) : baseLabelGap;
-  // In vertical mode, arrows are full-size regardless of card shrinkage.
-  const ARROW_STROKE = isVertical ? baseArrowStroke : baseArrowStroke;
-  const ARROW_HEAD = isVertical ? baseArrowHead : Math.round(baseArrowHead * horizScale);
+  // Arrow head/stroke scale alongside the card so they don't look detached
+  // when the icon shrinks, but enforce a floor so they remain visible.
+  const MIN_ARROW_HEAD = isLandscape ? 20 : 18;
+  const MIN_ARROW_STROKE = 4;
+  const ARROW_STROKE = Math.max(MIN_ARROW_STROKE, Math.round(baseArrowStroke * cardScale));
+  const ARROW_HEAD = Math.max(MIN_ARROW_HEAD, Math.round(baseArrowHead * cardScale));
 
   if (direction === "vertical") {
     // Fill the available content area under the title evenly, regardless of node count.
@@ -227,8 +237,10 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
           const x1 = slotWidth * (i + 0.5) + arrowGap;
           const x2 = slotWidth * (i + 1.5) - arrowGap;
           const cy = ICON_BOX / 2;
-          const totalLen = x2 - x1;
-          const drawLen = totalLen * p;
+          // Line ends at the polygon's back edge so the round line-cap
+          // doesn't poke past the arrowhead tip.
+          const lineMaxLen = Math.max(0, x2 - ARROW_HEAD - x1);
+          const drawLen = lineMaxLen * p;
 
           return (
             <g key={`arrow-${i}`}>
