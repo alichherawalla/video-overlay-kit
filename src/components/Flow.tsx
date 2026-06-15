@@ -52,7 +52,7 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   // budget can't fit them alongside a visible connector arrow. Arrow head /
   // stroke / margin stay full-size so the arrow remains legible.
   // <=3 nodes keep the original sizing (scale=1).
-  const MIN_VERT_LINE = isLandscape ? 90 : 60;
+  const MIN_VERT_LINE = isLandscape ? 36 : 20;
   let vertScale = 1;
   if (direction === "vertical") {
     const TITLE_REGION_EST = isLandscape ? 200 : 360;
