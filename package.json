@@ -17,6 +17,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "render": "tsx scripts/render.ts",
+    "contact-sheet": "tsx scripts/contact-sheet.ts",
     "preview": "remotion studio",
     "mcp": "tsx mcp/server.ts"
   },
@@ -64,6 +65,7 @@
     "@types/node": "^25.9.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "sharp": "^0.35.1",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   }
