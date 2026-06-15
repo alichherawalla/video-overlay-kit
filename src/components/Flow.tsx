@@ -35,6 +35,11 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
   const baseIconSize = isLandscape ? 260 : 180;
   const baseIconBox = isLandscape ? 340 : 240;
   const baseLabelFont = isLandscape ? 68 : 52;
+  const baseLabelHeight = isLandscape ? 92 : 68;
+  const baseLabelGap = isLandscape ? 12 : 10;
+  const baseArrowStroke = isLandscape ? 7 : 6;
+  const baseArrowHead = isLandscape ? 30 : 26;
+  const baseArrowMargin = isLandscape ? 18 : 12;
 
   // For horizontal flow on portrait, scale icons against available slot width
   // so the arrows actually fit between nodes.
@@ -42,23 +47,48 @@ export const Flow: React.FC<{ track: FlowTrack }> = ({ track }) => {
     direction === "horizontal" && !isLandscape
       ? Math.min(1, (Math.round(config.width * 0.88) / track.nodes.length) / (baseIconBox + 80))
       : 1;
-  const ICON_SIZE = Math.round(baseIconSize * horizScale);
-  const ICON_BOX = Math.round(baseIconBox * horizScale);
-  const LABEL_FONT = Math.round(baseLabelFont * horizScale);
-  const LABEL_HEIGHT = isLandscape ? 92 : Math.round(68 * horizScale);
-  const LABEL_GAP_FROM_ICON = isLandscape ? 12 : 10;
-  const ARROW_STROKE = isLandscape ? 7 : 6;
-  const ARROW_HEAD = Math.round((isLandscape ? 30 : 26) * horizScale);
+
+  // For vertical flow, scale down only the icon + label when the per-node
+  // budget can't fit them alongside a visible connector arrow. Arrow head /
+  // stroke / margin stay full-size so the arrow remains legible.
+  // <=3 nodes keep the original sizing (scale=1).
+  const MIN_VERT_LINE = isLandscape ? 90 : 60;
+  let vertScale = 1;
+  if (direction === "vertical") {
+    const TITLE_REGION_EST = isLandscape ? 200 : 360;
+    const BOTTOM_MARGIN_EST = isLandscape ? 80 : 120;
+    const slotH = (config.height - TITLE_REGION_EST - BOTTOM_MARGIN_EST) / track.nodes.length;
+    const arrowBudget = 2 * baseArrowMargin + baseArrowHead + MIN_VERT_LINE;
+    const cardBudget = baseIconBox + baseLabelGap + baseLabelHeight;
+    vertScale = Math.min(1, (slotH - arrowBudget) / cardBudget);
+  }
+
+  const isVertical = direction === "vertical";
+  const cardScale = isVertical ? vertScale : horizScale;
+  const ICON_SIZE = Math.round(baseIconSize * cardScale);
+  const ICON_BOX = Math.round(baseIconBox * cardScale);
+  const LABEL_FONT = Math.round(baseLabelFont * cardScale);
+  const LABEL_HEIGHT = isLandscape && !isVertical ? baseLabelHeight : Math.round(baseLabelHeight * cardScale);
+  const LABEL_GAP_FROM_ICON = isVertical ? Math.round(baseLabelGap * cardScale) : baseLabelGap;
+  // In vertical mode, arrows are full-size regardless of card shrinkage.
+  const ARROW_STROKE = isVertical ? baseArrowStroke : baseArrowStroke;
+  const ARROW_HEAD = isVertical ? baseArrowHead : Math.round(baseArrowHead * horizScale);
 
   if (direction === "vertical") {
     // Fill the available content area under the title evenly, regardless of node count.
     // 2/3/4 items all read the same — content is anchored to the canvas, not floating.
-    const TITLE_REGION = isLandscape ? 200 : 360;
-    const BOTTOM_MARGIN = isLandscape ? 80 : 120;
+    // When card has shrunk to fit more nodes, pull the content closer to the
+    // title so we don't leave a yawning gap.
+    const TITLE_REGION = isLandscape
+      ? 200
+      : vertScale < 1
+        ? Math.round(260 + 100 * vertScale)
+        : 360;
+    const BOTTOM_MARGIN = isLandscape ? 80 : vertScale < 1 ? 100 : 120;
     const CONTAINER_W = 780;
     const CONTAINER_H = config.height - TITLE_REGION - BOTTOM_MARGIN;
     const SLOT_H = CONTAINER_H / n;
-    const ARROW_MARGIN = isLandscape ? 18 : 12;
+    const ARROW_MARGIN = baseArrowMargin;
     const cx = CONTAINER_W / 2;
 
     return (
